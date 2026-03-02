@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { runOrchestrator } from "@/lib/core/orchestrator"
+import { runOrchestrator } from "@/lib/core/Orchestrator"
 
 export async function POST(req: Request) {
   const body = await req.json()
