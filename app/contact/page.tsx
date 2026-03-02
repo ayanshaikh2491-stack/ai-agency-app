@@ -1,12 +1,13 @@
 export default function Contact() {
   return (
-    <>
-      <h1>Contact Us</h1>
+    <div className="py-32 text-center">
+      <h1 className="text-4xl font-bold mb-6">
+        Contact Us
+      </h1>
 
-      <div className="card">
-        <p>Email: contact@aiagency.com</p>
-        <p>Phone: +91 9876543210</p>
-      </div>
-    </>
+      <p className="text-slate-400">
+        We will analyze your growth plan and contact you soon.
+      </p>
+    </div>
   );
 }
