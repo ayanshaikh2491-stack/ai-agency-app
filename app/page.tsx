@@ -1,16 +1,24 @@
+import Hero from "@/components/ui/animated-shader-hero";
+
 export default function Home() {
   return (
-    <>
-      <h1>Welcome to AI Agency</h1>
-      <p>We build AI automation systems for modern businesses.</p>
-
-      <div className="card">
-        <h3>Why Choose Us?</h3>
-        <p>
-          We design scalable AI systems that help businesses automate
-          operations and increase efficiency.
-        </p>
-      </div>
-    </>
+    <Hero
+      trustBadge={{
+        text: "Trusted by forward-thinking teams."
+      }}
+      headline={{
+        line1: "Launch Your",
+        line2: "Workflow Into Orbit"
+      }}
+      subtitle="Supercharge productivity with AI-powered automation built for modern teams."
+      buttons={{
+        primary: {
+          text: "Get Started"
+        },
+        secondary: {
+          text: "Explore"
+        }
+      }}
+    />
   );
 }
