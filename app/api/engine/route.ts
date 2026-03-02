@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server"
-import { orchestrator } from "@/lib/core/orchestrator"
+import { runOrchestrator } from "@/lib/core/orchestrator"
 
 export async function POST(req: Request) {
   try {
     const body = await req.json()
 
-    const result = await orchestrator(body)
+    const result = await runOrchestrator(body.message)
 
     return NextResponse.json({
       success: true,
