@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   const body = await req.json()
   const { message, persona } = body
 
-  const response = await runOrchestrator(message, persona)
+  const reply = await runOrchestrator(message, persona)
 
-  return NextResponse.json({ reply: response })
+  return NextResponse.json({ reply })
 }
