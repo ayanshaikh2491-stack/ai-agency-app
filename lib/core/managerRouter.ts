@@ -5,21 +5,21 @@ import { automationManager } from "@/lib/managers/automationManager"
 
 export async function routeManager(message: string, persona: string) {
 
-  if (persona === "research" || message.includes("content")) {
+  if (persona === "research") {
     return marketingManager(message)
   }
 
-  if (persona === "seo" || message.includes("rank")) {
+  if (persona === "seo") {
     return seoManager(message)
   }
 
-  if (persona === "website" || message.includes("website")) {
+  if (persona === "website") {
     return websiteManager(message)
   }
 
-  if (persona === "automation" || message.includes("automate")) {
+  if (persona === "automation") {
     return automationManager(message)
   }
 
-  return "General strategy analysis running..."
+  return "System running but no manager matched."
 }
