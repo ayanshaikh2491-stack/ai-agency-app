@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { runorchestrator } from "@/lib/core/orchestrator"
+import { runorchestrator } from "../../../lib/core/orchestrator"
 
 export async function POST(req: Request) {
   try {
