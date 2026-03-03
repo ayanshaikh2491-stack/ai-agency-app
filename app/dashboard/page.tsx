@@ -1,39 +1,40 @@
 "use client"
+
 import { useState } from "react"
 
-export default function DashboardPage() {
-  const [result, setResult] = useState("")
+export default function Dashboard() {
+  const [response, setResponse] = useState("")
 
   const testEngine = async () => {
     const res = await fetch("/api/engine", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: "Test marketing strategy",
-        persona: "research"
+        message: "Test message",
+        persona: "Strategy Lead"
       })
     })
 
     const data = await res.json()
-    setResult(data.reply)
+    setResponse(data.reply)
   }
 
   return (
-    <div className="min-h-screen p-10">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <main className="min-h-screen bg-slate-950 text-white p-10 space-y-6">
+      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
       <button
         onClick={testEngine}
-        className="bg-black text-white px-4 py-2 rounded"
+        className="px-4 py-2 bg-white text-black rounded"
       >
         Test Engine
       </button>
 
-      {result && (
-        <div className="mt-4 p-4 bg-gray-100 rounded">
-          {result}
+      {response && (
+        <div className="bg-black p-4 rounded border">
+          {response}
         </div>
       )}
-    </div>
+    </main>
   )
 }
