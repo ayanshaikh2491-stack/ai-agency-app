@@ -79,7 +79,10 @@ export default function ServicesPage() {
     { name: "Keshav Bhat", role: "Lead Designer", category: "LinkedIn Authority", gender: "male" },
   ];
 
-  const categories = [...new Set(agents.map(a => a.category))];
+  // ✅ FIXED CATEGORY LOGIC (NO SET)
+  const categories = agents
+    .map(a => a.category)
+    .filter((value, index, self) => self.indexOf(value) === index);
 
   return (
     <div className="min-h-screen bg-black text-white px-6 py-20">
@@ -105,7 +108,7 @@ export default function ServicesPage() {
                 >
 
                   <img
-                    src={`https://api.dicebear.com/7.x/adventurer/png?seed=${agent.name}&gender=${agent.gender}`}
+                    src={`https://api.dicebear.com/7.x/adventurer/png?seed=${agent.name}`}
                     alt={agent.name}
                     className="w-20 h-20 rounded-full mx-auto mb-4"
                   />
