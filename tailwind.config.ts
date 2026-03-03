@@ -6,7 +6,11 @@ const config: Config = {
     "./components/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      maskImage: {
+        "radial-gradient": "radial-gradient(var(--tw-gradient-stops))",
+      },
+    },
   },
   plugins: [],
 }
