@@ -8,7 +8,6 @@ export default function Home() {
 
   return (
     <main className="bg-black text-white min-h-screen">
-
       <section className="max-w-6xl mx-auto px-6 py-28 text-center">
         <h1 className="text-6xl font-bold mb-6">
           AI Digital Execution Team
@@ -18,14 +17,12 @@ export default function Home() {
           Strategy. Execution. Automation. Growth.
         </p>
 
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={() => router.push("/workspace")}
-            className="bg-purple-600 px-6 py-3 rounded-xl hover:bg-purple-700"
-          >
-            Get Started
-          </button>
-        </div>
+        <button
+          onClick={() => router.push("/workspace")}
+          className="bg-purple-600 px-6 py-3 rounded-xl hover:bg-purple-700"
+        >
+          Get Started
+        </button>
       </section>
 
       <ChatFloating />
