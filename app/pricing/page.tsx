@@ -1,13 +1,9 @@
-import Hero from "@/components/ui/Hero";
-import ServicesSection from "@/components/ui/ServicesSection";
 import PricingSection from "@/components/ui/PricingSection";
 
-export default function HomePage() {
+export default function PricingPage() {
   return (
-    <>
-      <Hero />
-      <ServicesSection />
+    <div className="min-h-screen bg-black text-white pt-20">
       <PricingSection />
-    </>
+    </div>
   );
 }
