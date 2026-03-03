@@ -1,4 +1,4 @@
-import PricingSection from "@/components/ui/pricing-section";
+import PricingSection from "@/components/ui/PricingSection";
 
 export default function PricingPage() {
   return <PricingSection />;
