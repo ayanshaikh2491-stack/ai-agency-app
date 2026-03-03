@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import ManagerEngine from "@/components/ManagerEngine";
+import ManagerEngine from "../../components/ManagerEngine";
 
 export default function Workspace() {
   return (
