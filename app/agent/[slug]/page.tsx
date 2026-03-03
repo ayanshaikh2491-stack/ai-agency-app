@@ -15,26 +15,24 @@ export default function AgentChatPage() {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState<
     { sender: "user" | "agent"; text: string }[]
-  >([
-    { sender: "agent", text: "Hello 👋 I am ready to assist you." }
-  ]);
+  >([{ sender: "agent", text: "Hello. How can I assist you today?" }]);
 
   const [typing, setTyping] = useState(false);
 
   const sendMessage = () => {
     if (!message.trim()) return;
 
-    const userMessage = message;
+    const userMsg = message;
     setMessage("");
 
-    setChat(prev => [...prev, { sender: "user", text: userMessage }]);
+    setChat(prev => [...prev, { sender: "user", text: userMsg }]);
 
     setTyping(true);
 
     setTimeout(() => {
       setChat(prev => [
         ...prev,
-        { sender: "agent", text: "Thank you. I am working on your request." }
+        { sender: "agent", text: "Thank you. I am analyzing your request." }
       ]);
       setTyping(false);
     }, 1500);
@@ -45,9 +43,11 @@ export default function AgentChatPage() {
 
       {/* Header */}
       <div className="p-6 border-b border-zinc-800 flex items-center gap-4">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center font-bold">
-          {agentName.charAt(0)}
-        </div>
+        <img
+          src={`https://ui-avatars.com/api/?name=${agentName}&background=111827&color=ffffff&size=128`}
+          alt={agentName}
+          className="w-12 h-12 rounded-full"
+        />
         <div>
           <h1 className="text-lg font-semibold">{agentName}</h1>
           <p className="text-xs text-gray-400">AI Specialist</p>
@@ -57,9 +57,9 @@ export default function AgentChatPage() {
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
 
-        {chat.map((msg, index) => (
+        {chat.map((msg, i) => (
           <div
-            key={index}
+            key={i}
             className={`max-w-md p-3 rounded-xl ${
               msg.sender === "user"
                 ? "bg-purple-600 ml-auto"
@@ -72,11 +72,10 @@ export default function AgentChatPage() {
 
         {typing && (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 animate-pulse flex items-center justify-center text-sm">
-              {agentName.charAt(0)}
-            </div>
-            <div className="bg-zinc-900 px-4 py-2 rounded-xl text-gray-400 text-sm animate-pulse">
-              typing...
+            <div className="flex gap-1">
+              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
+              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></span>
+              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></span>
             </div>
           </div>
         )}
@@ -94,7 +93,7 @@ export default function AgentChatPage() {
 
         <button
           onClick={sendMessage}
-          className="bg-purple-600 px-6 py-2 rounded-xl"
+          className="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-2 rounded-xl"
         >
           Send
         </button>
