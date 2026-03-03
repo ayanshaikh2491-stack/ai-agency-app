@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import ChatFloating from "@/components/ChatFloating";
+import ChatFloating from "../components/ChatFloating";
 
 export default function Home() {
   const router = useRouter();
