@@ -13,45 +13,74 @@ export default function AgentChatPage() {
     .join(" ");
 
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState<string[]>([
-    `${agentName}: Hello 👋 I am ready to assist you.`
+  const [chat, setChat] = useState<
+    { sender: "user" | "agent"; text: string }[]
+  >([
+    { sender: "agent", text: "Hello 👋 I am ready to assist you." }
   ]);
+
+  const [typing, setTyping] = useState(false);
 
   const sendMessage = () => {
     if (!message.trim()) return;
 
-    setChat(prev => [
-      ...prev,
-      `You: ${message}`,
-      `${agentName}: Thank you. I will help you with that.`
-    ]);
-
+    const userMessage = message;
     setMessage("");
+
+    setChat(prev => [...prev, { sender: "user", text: userMessage }]);
+
+    setTyping(true);
+
+    setTimeout(() => {
+      setChat(prev => [
+        ...prev,
+        { sender: "agent", text: "Thank you. I am working on your request." }
+      ]);
+      setTyping(false);
+    }, 1500);
   };
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
 
       {/* Header */}
-      <div className="p-6 border-b border-zinc-800">
-        <h1 className="text-2xl font-bold">{agentName}</h1>
-        <p className="text-gray-400 text-sm">AI Specialist</p>
+      <div className="p-6 border-b border-zinc-800 flex items-center gap-4">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center font-bold">
+          {agentName.charAt(0)}
+        </div>
+        <div>
+          <h1 className="text-lg font-semibold">{agentName}</h1>
+          <p className="text-xs text-gray-400">AI Specialist</p>
+        </div>
       </div>
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
+
         {chat.map((msg, index) => (
           <div
             key={index}
-            className={`p-3 rounded-xl ${
-              msg.startsWith("You:")
-                ? "bg-purple-600 text-white self-end"
+            className={`max-w-md p-3 rounded-xl ${
+              msg.sender === "user"
+                ? "bg-purple-600 ml-auto"
                 : "bg-zinc-900"
             }`}
           >
-            {msg}
+            {msg.text}
           </div>
         ))}
+
+        {typing && (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 animate-pulse flex items-center justify-center text-sm">
+              {agentName.charAt(0)}
+            </div>
+            <div className="bg-zinc-900 px-4 py-2 rounded-xl text-gray-400 text-sm animate-pulse">
+              typing...
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* Input */}
