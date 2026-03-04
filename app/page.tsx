@@ -31,8 +31,6 @@ export default function Home() {
 
       <VideoProof />
 
-      <Testimonials />
-
       <ServicesSection />
 
       <PricingSection />
