@@ -6,15 +6,12 @@ import TeamPlanner from "@/components/TeamPlanner";
 import Features from "@/components/Features";
 import VideoProof from "@/components/VideoProof";
 
-
 import ServicesSection from "@/components/ui/ServicesSection";
 import PricingSection from "@/components/ui/PricingSection";
 import Footer from "@/components/ui/Footer";
 
 export default function Home() {
-
   return (
-
     <main className="bg-black text-white">
 
       <Navbar />
@@ -22,7 +19,7 @@ export default function Home() {
       <Hero />
 
       <div className="max-w-6xl mx-auto py-20">
-        <ChatBox />
+        <ChatBox persona="default" />
       </div>
 
       <TeamPlanner />
@@ -38,7 +35,5 @@ export default function Home() {
       <Footer />
 
     </main>
-
   );
-
 }
