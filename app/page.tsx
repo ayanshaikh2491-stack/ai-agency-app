@@ -17,10 +17,6 @@ export default function Home() {
 
       <Hero />
 
-      <div className="max-w-6xl mx-auto py-20">
-        <ChatBox persona="default" />
-      </div>
-
       <TeamPlanner />
       <Features />
       <VideoProof />
