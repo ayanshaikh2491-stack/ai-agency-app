@@ -1,26 +1,32 @@
 "use client";
 
-import ChatFloating from "@/components/ChatFloating";
+import HeroChat from "@/components/HeroChat";
+import TeamPanel from "@/components/TeamPanel";
+import TrustSection from "@/components/TrustSection";
+import Testimonials from "@/components/Testimonials";
+import Features from "@/components/Features";
+import VideoProof from "@/components/VideoProof";
 
 export default function Home() {
 
-  return (
-    <main className="bg-black text-white min-h-screen">
+return (
 
-      <section className="max-w-6xl mx-auto px-6 py-28 text-center">
+<main className="bg-black text-white min-h-screen">
 
-        <h1 className="text-6xl font-bold mb-6">
-          AI Digital Execution Team
-        </h1>
+<HeroChat />
 
-        <p className="text-gray-400 text-lg">
-          Strategy. Execution. Automation. Growth.
-        </p>
+<TeamPanel />
 
-      </section>
+<TrustSection />
 
-      <ChatFloating />
+<Testimonials />
 
-    </main>
-  );
+<VideoProof />
+
+<Features />
+
+</main>
+
+)
+
 }
