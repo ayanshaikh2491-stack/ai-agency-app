@@ -13,7 +13,6 @@ import Footer from "@/components/ui/Footer";
 export default function Home() {
   return (
     <main className="bg-black text-white">
-
       <Navbar />
 
       <Hero />
@@ -23,17 +22,13 @@ export default function Home() {
       </div>
 
       <TeamPlanner />
-
       <Features />
-
       <VideoProof />
 
       <ServicesSection />
-
       <PricingSection />
 
       <Footer />
-
     </main>
   );
 }
