@@ -5,7 +5,7 @@ import ChatBox from "@/components/ui/ChatBox";
 import TeamPlanner from "@/components/TeamPlanner";
 import Features from "@/components/Features";
 import VideoProof from "@/components/VideoProof";
-import Testimonials from "@/components/Testimonials";
+
 
 import ServicesSection from "@/components/ui/ServicesSection";
 import PricingSection from "@/components/ui/PricingSection";
