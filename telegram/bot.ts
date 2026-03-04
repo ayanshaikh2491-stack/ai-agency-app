@@ -14,12 +14,8 @@ bot.on("message", async (msg) => {
 
   const text = msg.text || "";
 
-  bot.sendMessage(msg.chat.id, "AI Manager thinking...");
-
   const result = await runAgent(text);
 
   bot.sendMessage(msg.chat.id, result || "No response");
 
 });
-
-console.log("Telegram AI Manager running...");
