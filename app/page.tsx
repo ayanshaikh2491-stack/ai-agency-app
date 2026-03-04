@@ -1,32 +1,46 @@
-"use client";
+import Navbar from "@/components/ui/Navbar";
+import Hero from "@/components/ui/Hero";
+import ChatBox from "@/components/ui/ChatBox";
 
-import HeroChat from "@/components/HeroChat";
-import TeamPanel from "@/components/TeamPanel";
-import TrustSection from "@/components/TrustSection";
-import Testimonials from "@/components/Testimonials";
+import TeamPlanner from "@/components/TeamPlanner";
 import Features from "@/components/Features";
 import VideoProof from "@/components/VideoProof";
+import Testimonials from "@/components/Testimonials";
+
+import ServicesSection from "@/components/ui/ServicesSection";
+import PricingSection from "@/components/ui/PricingSection";
+import Footer from "@/components/ui/Footer";
 
 export default function Home() {
 
-return (
+  return (
 
-<main className="bg-black text-white min-h-screen">
+    <main className="bg-black text-white">
 
-<HeroChat />
+      <Navbar />
 
-<TeamPanel />
+      <Hero />
 
-<TrustSection />
+      <div className="max-w-6xl mx-auto py-20">
+        <ChatBox />
+      </div>
 
-<Testimonials />
+      <TeamPlanner />
 
-<VideoProof />
+      <Features />
 
-<Features />
+      <VideoProof />
 
-</main>
+      <Testimonials />
 
-)
+      <ServicesSection />
+
+      <PricingSection />
+
+      <Footer />
+
+    </main>
+
+  );
 
 }
