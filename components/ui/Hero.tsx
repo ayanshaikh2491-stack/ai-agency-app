@@ -1,7 +1,9 @@
 import ChatUI from "./ChatUI"
 
 export default function Hero() {
+
   return (
+
     <section className="max-w-6xl mx-auto px-6 py-24 text-center">
 
       <h1 className="text-5xl font-bold leading-tight">
@@ -17,5 +19,7 @@ export default function Hero() {
       </div>
 
     </section>
+
   )
+
 }
