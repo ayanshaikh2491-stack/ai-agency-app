@@ -2,14 +2,16 @@ export default function VideoProof(){
 
   return(
 
-    <section className="max-w-6xl mx-auto py-24 px-6 text-center">
+    <section className="py-24 max-w-4xl mx-auto text-center">
 
-      <h2 className="text-4xl font-bold mb-10">
-        Real Client Results
+      <h2 className="text-3xl font-bold mb-8">
+        Watch AI Build a Marketing Team
       </h2>
 
-      <div className="bg-zinc-900 h-80 rounded-xl flex items-center justify-center">
-        Video Proof
+      <div className="aspect-video bg-zinc-900 rounded-xl flex items-center justify-center">
+
+        Demo Video
+
       </div>
 
     </section>
