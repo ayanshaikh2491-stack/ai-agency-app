@@ -13,8 +13,7 @@ export async function POST(req: Request) {
     messages: [
       {
         role: "system",
-        content: `
-You are an AI Agency Manager.
+        content: `You are an AI Agency Manager.
 
 Your job:
 - Understand the user's business problem
@@ -29,8 +28,7 @@ Marketing Team
 Social Media Team
 
 Always respond conversationally and intelligently.
-Do not give fixed responses.
-`
+Do not give fixed responses.`
       },
       {
         role: "user",
@@ -42,4 +40,5 @@ Do not give fixed responses.
   return Response.json({
     reply: completion.choices[0].message.content
   })
+
 }
