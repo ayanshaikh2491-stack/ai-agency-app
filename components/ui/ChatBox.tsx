@@ -1,70 +1,33 @@
-"use client"
+{team.map((m,i)=>(
 
-import { useState } from "react"
+<div key={i} className="bg-zinc-900 p-6 rounded-xl mb-6">
 
-export default function ChatBox() {
+<h3 className="text-xl font-bold">{m.name}</h3>
 
-  const [message, setMessage] = useState("")
-  const [team, setTeam] = useState<any[]>([])
+<p className="text-purple-400">{m.role}</p>
 
-  const sendMessage = async () => {
+<p className="text-gray-400 text-sm">
+Department: {m.department}
+</p>
 
-    if(!message) return
+<p className="mt-3">{m.intro}</p>
 
-    const res = await fetch("/api/run-manager",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        message
-      })
-    })
+<div className="mt-4">
 
-    const data = await res.json()
+<p className="font-semibold mb-2">
+Agents
+</p>
 
-    setTeam(data.reply)
+<ul className="text-gray-400">
 
-  }
+{m.agents.map((a,j)=>(
+<li key={j}>• {a}</li>
+))}
 
-  return (
+</ul>
 
-    <div className="p-6 border rounded-xl">
+</div>
 
-      <input
-        value={message}
-        onChange={(e)=>setMessage(e.target.value)}
-        placeholder="Describe the AI team you need..."
-        className="w-full p-3 bg-black border rounded-lg"
-      />
+</div>
 
-      <button
-        onClick={sendMessage}
-        className="mt-4 px-6 py-2 bg-purple-600 rounded-lg"
-      >
-        Build AI Team
-      </button>
-
-      <div className="grid grid-cols-2 gap-4 mt-8">
-
-        {team.map((agent,i)=>(
-          <div key={i} className="p-4 border rounded-lg">
-
-            <h3 className="font-bold">
-              {agent.agent}
-            </h3>
-
-            <p className="text-sm text-gray-400">
-              {agent.result}
-            </p>
-
-          </div>
-        ))}
-
-      </div>
-
-    </div>
-
-  )
-
-}
+))}
