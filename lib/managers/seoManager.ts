@@ -1,5 +1,9 @@
-import { seoAgent } from "@/lib/agents/seoAgent"
+import seoAgent from "../agents/seoAgent"
 
 export async function seoManager(message: string) {
-  return seoAgent(message)
+
+  const result = await seoAgent(message)
+
+  return result
+
 }
