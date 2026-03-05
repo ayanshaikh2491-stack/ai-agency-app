@@ -15,6 +15,25 @@ import {
 export default function ChatUI(){
 
 const [message,setMessage] = useState("")
+const [reply,setReply] = useState("")
+
+async function sendMessage(){
+
+if(!message) return
+
+const res = await fetch("/api/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({ message })
+})
+
+const data = await res.json()
+
+setReply(data.reply)
+
+}
 
 return(
 
@@ -63,11 +82,22 @@ className="w-full bg-transparent text-white placeholder-gray-400 text-lg outline
 
 </div>
 
-<button className="p-3 rounded-xl bg-purple-600 hover:bg-purple-700">
+<button
+onClick={sendMessage}
+className="p-3 rounded-xl bg-purple-600 hover:bg-purple-700"
+>
 <Send size={18}/>
 </button>
 
 </div>
+
+{reply && (
+
+<div className="mt-6 text-gray-300">
+Manager: {reply}
+</div>
+
+)}
 
 </div>
 
