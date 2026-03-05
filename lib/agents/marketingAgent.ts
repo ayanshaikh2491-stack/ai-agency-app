@@ -1,3 +1,5 @@
-export async function marketingAgent(message: string) {
-  return `Marketing Strategy: Improve hooks and audience targeting for "${message}".`
+export default async function marketingAgent(prompt: string) {
+
+  return `Marketing analysis for: ${prompt}`
+
 }
