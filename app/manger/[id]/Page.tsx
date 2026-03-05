@@ -10,12 +10,19 @@ const [input,setInput] = useState("")
 useEffect(()=>{
 
 const intro:any = {
+
 website:"Hi, I'm your Website Manager. I can build or copy websites.",
+
 seo:"Hi, I'm your SEO Manager. I help websites rank on Google.",
+
 automation:"Hi, I'm your Automation Manager.",
+
 marketing:"Hi, I'm your Marketing Manager.",
+
 ads:"Hi, I'm your Facebook Ads Manager.",
+
 social:"Hi, I'm your Social Media Manager."
+
 }
 
 setMessages([
@@ -31,7 +38,7 @@ if(!input) return
 setMessages([
 ...messages,
 {role:"user",text:input},
-{role:"manager",text:"Let me analyze your request and assign the right agents."}
+{role:"manager",text:"Let me analyze your task and assign agents."}
 ])
 
 setInput("")
