@@ -1,31 +1,37 @@
 export default function Features(){
 
+  const features=[
+    "AI Team Builder",
+    "AI Manager Workflow",
+    "47 Specialized Agents",
+    "Real-time Execution",
+    "Marketing Automation",
+    "Research Automation"
+  ]
+
   return(
 
-    <section className="max-w-6xl mx-auto py-24 px-6">
+    <section className="py-24 border-t border-zinc-800">
 
-      <h2 className="text-4xl font-bold mb-12">
-        Powerful AI Features
-      </h2>
+      <div className="max-w-6xl mx-auto">
 
-      <div className="grid grid-cols-3 gap-8">
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Platform Features
+        </h2>
 
-        <div className="bg-zinc-900 p-6 rounded-xl">
-          AI Marketing Teams
-        </div>
+        <div className="grid md:grid-cols-3 gap-6">
 
-        <div className="bg-zinc-900 p-6 rounded-xl">
-          Automated Workflows
-        </div>
+          {features.map((f,i)=>(
+            <div key={i} className="bg-zinc-900 p-6 rounded-xl">
+              {f}
+            </div>
+          ))}
 
-        <div className="bg-zinc-900 p-6 rounded-xl">
-          Growth Analytics
         </div>
 
       </div>
 
     </section>
-
   )
 
 }
