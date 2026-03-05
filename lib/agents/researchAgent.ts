@@ -1,26 +1,19 @@
-import { groqChat } from "../lib/groq"
-import { webSearch } from "../tools/webSearch"
+export default async function researchAgent(prompt: string) {
 
-export async function researchAgent(prompt: string){
+  const result = `
+Research Analysis
 
-  const searchResults = await webSearch(prompt)
+Topic: ${prompt}
 
-  const systemPrompt = `
-You are a professional research analyst.
+Key Points:
+- Market trends related to the topic
+- Competitor insights
+- Opportunities for growth
+- Risks and challenges
 
-Rules:
-- Use real web data.
-- Never invent facts.
-- Provide sources.
-- Think step by step.
+Conclusion:
+Further research and real data analysis recommended.
 `
 
-  return groqChat(systemPrompt, `
-Research this topic using web results:
-
-${searchResults}
-
-Task:
-${prompt}
-`)
+  return result
 }
