@@ -2,19 +2,19 @@ import { runAgent } from "./agentRouter"
 
 export async function runManager(userPrompt: string) {
 
-  const intent = await runAgent("manager", userPrompt)
+  let agentType = "research"
 
-  const tasks = intent.tasks || []
+  const text = userPrompt.toLowerCase()
 
-  let results: any[] = []
-
-  for (const task of tasks) {
-
-    const result = await runAgent(task.agent, task.prompt)
-
-    results.push(result)
-
+  if (text.includes("seo")) {
+    agentType = "seo"
   }
 
-  return results
+  if (text.includes("marketing")) {
+    agentType = "marketing"
+  }
+
+  const result = await runAgent(agentType, userPrompt)
+
+  return result
 }
