@@ -1,85 +1,74 @@
 "use client"
 
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 
-export default function ManagerPage({params}:{params:{id:string}}){
+export default function ManagerPage({ params }: { params: { id: string } }) {
 
-const [messages,setMessages] = useState<any[]>([])
-const [input,setInput] = useState("")
+  const [messages, setMessages] = useState<any[]>([])
+  const [input, setInput] = useState("")
 
-useEffect(()=>{
+  useEffect(() => {
 
-const intro:any = {
+    const intro: any = {
+      website: "Hi, I'm your Website Manager. I can build or copy websites.",
+      seo: "Hi, I'm your SEO Manager. I help websites rank on Google.",
+      automation: "Hi, I'm your Automation Manager.",
+      marketing: "Hi, I'm your Marketing Manager.",
+      ads: "Hi, I'm your Facebook Ads Manager.",
+      social: "Hi, I'm your Social Media Manager."
+    }
 
-website:"Hi, I'm your Website Manager. I can build or copy websites.",
+    setMessages([
+      { role: "manager", text: intro[params.id] || "Hello, I'm your manager." }
+    ])
 
-seo:"Hi, I'm your SEO Manager. I help websites rank on Google.",
+  }, [])
 
-automation:"Hi, I'm your Automation Manager.",
+  function send() {
 
-marketing:"Hi, I'm your Marketing Manager.",
+    if (!input) return
 
-ads:"Hi, I'm your Facebook Ads Manager.",
+    setMessages([
+      ...messages,
+      { role: "user", text: input },
+      { role: "manager", text: "Let me analyze your task and assign the right agents." }
+    ])
 
-social:"Hi, I'm your Social Media Manager."
+    setInput("")
+  }
 
-}
+  return (
+    <div className="max-w-2xl mx-auto p-6 text-white">
 
-setMessages([
-{role:"manager",text:intro[params.id] || "Hello I'm your manager"}
-])
+      <h1 className="text-xl mb-6">AI Manager</h1>
 
-},[])
+      <div className="space-y-4">
 
-function send(){
+        {messages.map((m, i) => (
+          <div key={i}>
+            <strong>{m.role}:</strong> {m.text}
+          </div>
+        ))}
 
-if(!input) return
+      </div>
 
-setMessages([
-...messages,
-{role:"user",text:input},
-{role:"manager",text:"Let me analyze your task and assign agents."}
-])
+      <div className="flex gap-3 mt-6">
 
-setInput("")
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
+        />
 
-}
+        <button
+          onClick={send}
+          className="bg-purple-600 px-5 rounded"
+        >
+          Send
+        </button>
 
-return(
+      </div>
 
-<div className="max-w-2xl mx-auto p-6 text-white">
-
-<h1 className="text-xl mb-6">AI Manager</h1>
-
-<div className="space-y-4">
-
-{messages.map((m,i)=>(
-<div key={i}>
-<strong>{m.role}:</strong> {m.text}
-</div>
-))}
-
-</div>
-
-<div className="flex gap-3 mt-6">
-
-<input
-value={input}
-onChange={(e)=>setInput(e.target.value)}
-className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
-/>
-
-<button
-onClick={send}
-className="bg-purple-600 px-5 rounded"
->
-Send
-</button>
-
-</div>
-
-</div>
-
-)
-
+    </div>
+  )
 }
