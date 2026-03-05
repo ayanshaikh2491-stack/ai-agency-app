@@ -1,5 +1,9 @@
-import { marketingAgent } from "@/lib/agents/marketingAgent"
+import marketingAgent from "../agents/marketingAgent"
 
 export async function marketingManager(message: string) {
-  return marketingAgent(message)
+
+  const result = await marketingAgent(message)
+
+  return result
+
 }
