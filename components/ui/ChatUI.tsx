@@ -1,16 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import {
-  Globe,
-  Palette,
-  Search,
-  Settings,
-  Megaphone,
-  Instagram,
-  Send,
-  Plus
-} from "lucide-react"
+import { Send } from "lucide-react"
 
 export default function ChatUI() {
 
@@ -36,25 +27,29 @@ export default function ChatUI() {
 
       const data = await res.json()
 
+      console.log("API Response:",data)
+
       setReply(data.reply)
 
       setMessage("")
 
     }catch(err){
 
-      console.log("API Error",err)
+      console.error("Send error:",err)
 
     }finally{
+
       setLoading(false)
+
     }
 
   }
 
   return (
 
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-xl mx-auto">
 
-      <div className="bg-gradient-to-b from-zinc-900 to-zinc-800 border border-zinc-700 rounded-3xl p-6 shadow-xl">
+      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6">
 
         <input
           value={message}
@@ -65,46 +60,14 @@ export default function ChatUI() {
             }
           }}
           placeholder="Ask anything..."
-          className="w-full bg-transparent text-white placeholder-gray-400 text-lg outline-none"
+          className="w-full bg-transparent text-white outline-none"
         />
 
-        <div className="flex items-center justify-between mt-5">
-
-          <div className="flex gap-3">
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Plus size={18}/>
-            </button>
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Globe size={18}/>
-            </button>
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Palette size={18}/>
-            </button>
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Search size={18}/>
-            </button>
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Settings size={18}/>
-            </button>
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Megaphone size={18}/>
-            </button>
-
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Instagram size={18}/>
-            </button>
-
-          </div>
+        <div className="flex justify-end mt-4">
 
           <button
             onClick={sendMessage}
-            className="p-3 rounded-xl bg-purple-600 hover:bg-purple-700"
+            className="p-3 bg-purple-600 rounded-xl hover:bg-purple-700"
           >
             <Send size={18}/>
           </button>
@@ -113,12 +76,12 @@ export default function ChatUI() {
 
         {loading && (
           <p className="text-gray-400 mt-4">
-            Manager is thinking...
+            Manager thinking...
           </p>
         )}
 
         {reply && (
-          <div className="mt-6 text-gray-300">
+          <div className="mt-4 text-white">
             <strong>Manager:</strong> {reply}
           </div>
         )}
