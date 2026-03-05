@@ -1,15 +1,26 @@
-import { callAI } from "@/lib/aiClient"
+import { groqChat } from "../lib/groq"
+import { webSearch } from "../tools/webSearch"
 
-export async function researchAgent(input: string) {
-  const prompt = `
-You are a senior marketing research expert.
+export async function researchAgent(prompt: string){
 
-Analyze:
-- Target audience
-- Market opportunity
-- Competitor gap
+  const searchResults = await webSearch(prompt)
 
-Business: ${input}
+  const systemPrompt = `
+You are a professional research analyst.
+
+Rules:
+- Use real web data.
+- Never invent facts.
+- Provide sources.
+- Think step by step.
 `
-  return await callAI(prompt)
+
+  return groqChat(systemPrompt, `
+Research this topic using web results:
+
+${searchResults}
+
+Task:
+${prompt}
+`)
 }
