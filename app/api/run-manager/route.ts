@@ -1,37 +1,45 @@
-export async function POST(req: Request){
+import Groq from "groq-sdk"
 
-const { message } = await req.json()
-
-// simple manager logic
-
-let reply = ""
-
-if(message.toLowerCase().includes("website")){
-
-reply = "Website Manager activated. I will assign a Website Designer agent."
-
-}
-
-else if(message.toLowerCase().includes("seo")){
-
-reply = "SEO Manager activated. SEO team is preparing a strategy."
-
-}
-
-else if(message.toLowerCase().includes("marketing")){
-
-reply = "Marketing Manager activated. Ads and Content agents are ready."
-
-}
-
-else{
-
-reply = "AI Manager received your request. Assigning the best team."
-
-}
-
-return Response.json({
-reply
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
 })
 
+export async function POST(req: Request) {
+
+  const { message } = await req.json()
+
+  const completion = await groq.chat.completions.create({
+    model: "llama3-70b-8192",
+    messages: [
+      {
+        role: "system",
+        content: `
+You are an AI Agency Manager.
+
+Your job:
+- Understand the user's business problem
+- Respond naturally like a professional manager
+- Decide which team or agents are needed
+
+Teams available:
+Website Team
+SEO Team
+Automation Team
+Marketing Team
+Social Media Team
+
+Always respond conversationally and intelligently.
+Do not give fixed responses.
+`
+      },
+      {
+        role: "user",
+        content: message
+      }
+    ]
+  })
+
+  return Response.json({
+    reply: completion.choices[0].message.content
+  })
 }
