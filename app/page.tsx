@@ -10,8 +10,10 @@ import PricingSection from "@/components/ui/PricingSection"
 import Footer from "@/components/ui/Footer"
 
 export default function Home() {
+
   return (
-    <main className="bg-black text-white">
+
+    <main className="bg-black text-white min-h-screen">
 
       <Navbar />
 
@@ -34,5 +36,7 @@ export default function Home() {
       <Footer />
 
     </main>
+
   )
+
 }
