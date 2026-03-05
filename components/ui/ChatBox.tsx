@@ -8,7 +8,7 @@ export default function ChatUI() {
 
     <div className="w-full max-w-3xl">
 
-      <div className="bg-gradient-to-b from-[#1e1e1e] to-[#2a2a2a] backdrop-blur-lg border border-zinc-700 rounded-[24px] p-6 shadow-xl">
+      <div className="bg-gradient-to-b from-[#1e1e1e] to-[#2a2a2a] backdrop-blur-md border border-zinc-700 rounded-[24px] p-6 shadow-xl">
 
         {/* Input */}
 
@@ -25,15 +25,10 @@ export default function ChatUI() {
           <div className="flex gap-3">
 
             <IconBtn><Plus size={18} /></IconBtn>
-
             <IconBtn><Zap size={18} /></IconBtn>
-
             <IconBtn><Globe size={18} /></IconBtn>
-
             <IconBtn><Image size={18} /></IconBtn>
-
             <IconBtn><Code size={18} /></IconBtn>
-
             <IconBtn><Play size={18} /></IconBtn>
 
           </div>
@@ -42,7 +37,7 @@ export default function ChatUI() {
 
             <IconBtn><Mic size={18} /></IconBtn>
 
-            <button className="bg-zinc-800 hover:bg-zinc-700 transition rounded-lg p-3">
+            <button className="bg-purple-600 hover:bg-purple-500 transition rounded-lg p-3">
               <ArrowUp size={18}/>
             </button>
 
