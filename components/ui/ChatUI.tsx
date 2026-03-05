@@ -26,7 +26,7 @@ export default function ChatUI() {
 
       setLoading(true)
 
-      const res = await fetch("/api/chat",{
+      const res = await fetch("/api/run-manager",{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
