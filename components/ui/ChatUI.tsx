@@ -1,95 +1,88 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Send } from "lucide-react"
 
-export default function ChatUI() {
+export default function ChatUI(){
 
-  const [message,setMessage] = useState("")
-  const [reply,setReply] = useState("")
-  const [loading,setLoading] = useState(false)
+const router = useRouter()
 
-  async function sendMessage(){
+const [message,setMessage] = useState("")
 
-    if(!message.trim()) return
+const managers = [
+{ id:"website", name:"Website Manager" },
+{ id:"seo", name:"SEO Manager" },
+{ id:"automation", name:"Automation Manager" },
+{ id:"marketing", name:"Marketing Manager" },
+{ id:"ads", name:"Facebook Ads Manager" },
+{ id:"social", name:"Social Media Manager" }
+]
 
-    try{
+function openManager(id:string){
 
-      setLoading(true)
+router.push(`/manager/${id}`)
 
-      const res = await fetch("/api/run-manager",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify({ message })
-      })
+}
 
-      const data = await res.json()
+function startChat(){
 
-      console.log("API Response:",data)
+if(!message.trim()) return
 
-      setReply(data.reply)
+localStorage.setItem("firstMessage",message)
 
-      setMessage("")
+router.push("/manager/general")
 
-    }catch(err){
+}
 
-      console.error("Send error:",err)
+return(
 
-    }finally{
+<div className="w-full max-w-2xl mx-auto">
 
-      setLoading(false)
+<div className="bg-zinc-900 border border-zinc-700 rounded-3xl p-6">
 
-    }
+<input
+value={message}
+onChange={(e)=>setMessage(e.target.value)}
+placeholder="Ask anything..."
+className="w-full bg-transparent text-white outline-none"
+/>
 
-  }
+<div className="flex justify-end mt-4">
 
-  return (
+<button
+onClick={startChat}
+className="bg-purple-600 p-3 rounded-xl"
+>
+<Send size={18}/>
+</button>
 
-    <div className="w-full max-w-xl mx-auto">
+</div>
 
-      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6">
+</div>
 
-        <input
-          value={message}
-          onChange={(e)=>setMessage(e.target.value)}
-          onKeyDown={(e)=>{
-            if(e.key==="Enter"){
-              sendMessage()
-            }
-          }}
-          placeholder="Ask anything..."
-          className="w-full bg-transparent text-white outline-none"
-        />
+{/* Manager Teams */}
 
-        <div className="flex justify-end mt-4">
+<div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
 
-          <button
-            onClick={sendMessage}
-            className="p-3 bg-purple-600 rounded-xl hover:bg-purple-700"
-          >
-            <Send size={18}/>
-          </button>
+{managers.map((m)=>(
 
-        </div>
+<div
+key={m.id}
+onClick={()=>openManager(m.id)}
+className="cursor-pointer bg-zinc-900 border border-zinc-700 p-4 rounded-xl hover:bg-zinc-800"
+>
 
-        {loading && (
-          <p className="text-gray-400 mt-4">
-            Manager thinking...
-          </p>
-        )}
+<p className="text-white">{m.name}</p>
 
-        {reply && (
-          <div className="mt-4 text-white">
-            <strong>Manager:</strong> {reply}
-          </div>
-        )}
+</div>
 
-      </div>
+))}
 
-    </div>
+</div>
 
-  )
+</div>
+
+)
 
 }
