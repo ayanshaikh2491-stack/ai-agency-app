@@ -12,114 +12,67 @@ import {
   Plus
 } from "lucide-react"
 
-export default function ChatUI() {
+export default function ChatUI(){
 
-  const [message,setMessage] = useState("")
-  const [reply,setReply] = useState("")
+const [message,setMessage] = useState("")
 
-  async function sendMessage(){
+return(
 
-    if(!message) return
+<div className="w-full max-w-2xl mx-auto">
 
-    const res = await fetch("/api/chat",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({ message })
-    })
+<div className="bg-gradient-to-b from-zinc-900 to-zinc-800 border border-zinc-700 rounded-3xl p-6 shadow-xl">
 
-    const data = await res.json()
+<input
+value={message}
+onChange={(e)=>setMessage(e.target.value)}
+placeholder="Ask anything..."
+className="w-full bg-transparent text-white placeholder-gray-400 text-lg outline-none"
+/>
 
-    setReply(data.reply)
+<div className="flex items-center justify-between mt-5">
 
-  }
+<div className="flex gap-3">
 
-  return (
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Plus size={18}/>
+</button>
 
-    <div className="w-full max-w-2xl mx-auto">
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Globe size={18}/>
+</button>
 
-      <div className="bg-gradient-to-b from-zinc-900 to-zinc-800 border border-zinc-700 rounded-3xl p-6 shadow-xl">
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Palette size={18}/>
+</button>
 
-        <input
-          value={message}
-          onChange={(e)=>setMessage(e.target.value)}
-          placeholder="Ask anything..."
-          className="w-full bg-transparent text-white placeholder-gray-400 text-lg outline-none"
-        />
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Search size={18}/>
+</button>
 
-        <div className="flex items-center justify-between mt-5">
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Settings size={18}/>
+</button>
 
-          <div className="flex gap-3">
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Megaphone size={18}/>
+</button>
 
-            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
-              <Plus size={18}/>
-            </button>
+<button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+<Instagram size={18}/>
+</button>
 
-            <button
-              title="Website Manager"
-              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
-            >
-              <Globe size={18}/>
-            </button>
+</div>
 
-            <button
-              title="Design Manager"
-              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
-            >
-              <Palette size={18}/>
-            </button>
+<button className="p-3 rounded-xl bg-purple-600 hover:bg-purple-700">
+<Send size={18}/>
+</button>
 
-            <button
-              title="SEO Manager"
-              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
-            >
-              <Search size={18}/>
-            </button>
+</div>
 
-            <button
-              title="Automation Manager"
-              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
-            >
-              <Settings size={18}/>
-            </button>
+</div>
 
-            <button
-              title="Marketing Manager"
-              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
-            >
-              <Megaphone size={18}/>
-            </button>
+</div>
 
-            <button
-              title="Social Media Manager"
-              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
-            >
-              <Instagram size={18}/>
-            </button>
+)
 
-          </div>
-
-          <button
-            onClick={sendMessage}
-            className="p-3 rounded-xl bg-purple-600 hover:bg-purple-700 transition"
-          >
-            <Send size={18}/>
-          </button>
-
-        </div>
-
-        {reply && (
-
-          <div className="mt-6 text-gray-300 text-sm">
-            {reply}
-          </div>
-
-        )}
-
-      </div>
-
-    </div>
-
-  )
 }
