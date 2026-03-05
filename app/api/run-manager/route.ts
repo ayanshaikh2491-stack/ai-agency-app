@@ -5,10 +5,10 @@ export async function POST(req: Request) {
 
   const body = await req.json()
 
-  const result = await runManager(body.message)
+  const team = await runManager(body.message)
 
   return NextResponse.json({
-    reply: result
+    reply: team
   })
 
 }
