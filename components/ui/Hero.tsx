@@ -1,25 +1,21 @@
-import ChatBox from "./ChatBox"
+import ChatUI from "./ChatUI"
 
-export default function Hero(){
+export default function Hero() {
+  return (
+    <section className="max-w-6xl mx-auto px-6 py-24 text-center">
 
-  return(
-
-    <section className="py-20 text-center">
-
-      <h1 className="text-4xl font-bold">
+      <h1 className="text-5xl font-bold leading-tight">
         Build Your AI Execution Team
       </h1>
 
-      <p className="mt-4 text-gray-400">
-        Describe the team you need. Our AI manager builds agents automatically.
+      <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+        Describe the team you need. Our AI manager builds and coordinates specialized agents to execute tasks automatically.
       </p>
 
-      <div className="mt-12">
-        <ChatBox />
+      <div className="mt-12 flex justify-center">
+        <ChatUI />
       </div>
 
     </section>
-
   )
-
 }
