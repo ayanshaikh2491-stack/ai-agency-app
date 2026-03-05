@@ -1,54 +1,125 @@
 "use client"
 
-import { Plus, Zap, Globe, Image, Code, Play, Mic, ArrowUp } from "lucide-react"
+import { useState } from "react"
+import {
+  Globe,
+  Palette,
+  Search,
+  Settings,
+  Megaphone,
+  Instagram,
+  Send,
+  Plus
+} from "lucide-react"
 
 export default function ChatUI() {
-  return (
-    <div className="w-full max-w-3xl">
 
-      <div className="bg-gradient-to-b from-[#1e1e1e] to-[#2a2a2a] backdrop-blur-md border border-zinc-700 rounded-[24px] p-6 shadow-xl">
+  const [message,setMessage] = useState("")
+  const [reply,setReply] = useState("")
+
+  async function sendMessage(){
+
+    if(!message) return
+
+    const res = await fetch("/api/chat",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({ message })
+    })
+
+    const data = await res.json()
+
+    setReply(data.reply)
+
+  }
+
+  return (
+
+    <div className="w-full max-w-2xl mx-auto">
+
+      <div className="bg-gradient-to-b from-zinc-900 to-zinc-800 border border-zinc-700 rounded-3xl p-6 shadow-xl">
 
         <input
-          type="text"
+          value={message}
+          onChange={(e)=>setMessage(e.target.value)}
           placeholder="Ask anything..."
-          className="w-full bg-transparent text-gray-200 text-lg outline-none placeholder-gray-500"
+          className="w-full bg-transparent text-white placeholder-gray-400 text-lg outline-none"
         />
 
-        <div className="flex items-center justify-between mt-6">
+        <div className="flex items-center justify-between mt-5">
 
           <div className="flex gap-3">
 
-            <IconBtn><Plus size={18}/></IconBtn>
-            <IconBtn><Zap size={18}/></IconBtn>
-            <IconBtn><Globe size={18}/></IconBtn>
-            <IconBtn><Image size={18}/></IconBtn>
-            <IconBtn><Code size={18}/></IconBtn>
-            <IconBtn><Play size={18}/></IconBtn>
+            <button className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700">
+              <Plus size={18}/>
+            </button>
 
-          </div>
+            <button
+              title="Website Manager"
+              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+            >
+              <Globe size={18}/>
+            </button>
 
-          <div className="flex gap-3">
+            <button
+              title="Design Manager"
+              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+            >
+              <Palette size={18}/>
+            </button>
 
-            <IconBtn><Mic size={18}/></IconBtn>
+            <button
+              title="SEO Manager"
+              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+            >
+              <Search size={18}/>
+            </button>
 
-            <button className="bg-purple-600 hover:bg-purple-500 rounded-lg p-3">
-              <ArrowUp size={18}/>
+            <button
+              title="Automation Manager"
+              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+            >
+              <Settings size={18}/>
+            </button>
+
+            <button
+              title="Marketing Manager"
+              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+            >
+              <Megaphone size={18}/>
+            </button>
+
+            <button
+              title="Social Media Manager"
+              className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+            >
+              <Instagram size={18}/>
             </button>
 
           </div>
 
+          <button
+            onClick={sendMessage}
+            className="p-3 rounded-xl bg-purple-600 hover:bg-purple-700 transition"
+          >
+            <Send size={18}/>
+          </button>
+
         </div>
+
+        {reply && (
+
+          <div className="mt-6 text-gray-300 text-sm">
+            {reply}
+          </div>
+
+        )}
 
       </div>
 
     </div>
-  )
-}
 
-function IconBtn({children}:{children:any}) {
-  return (
-    <button className="bg-zinc-800 hover:bg-zinc-700 transition rounded-lg p-3">
-      {children}
-    </button>
   )
 }
