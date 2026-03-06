@@ -23,3 +23,20 @@ export async function runManager(message:string){
  return "Hello 👋 I'm the AI Operations Manager. Tell me what you want to build and I will assemble the right AI team."
 
 }
+export async function runManager(message:string){
+
+ const text = message.toLowerCase()
+
+ if(text.includes("seo")){
+
+  return JSON.stringify([
+   {agent:"Keyword Research Agent"},
+   {agent:"Technical SEO Agent"},
+   {agent:"Content Optimization Agent"}
+  ])
+
+ }
+
+ return "Hello 👋 I'm the AI Manager. Tell me your project."
+
+}l
