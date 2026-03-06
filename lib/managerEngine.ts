@@ -1,45 +1,85 @@
-export async function runManager(message: string) {
+export async function runManager(message:string){
 
-  const text = message.toLowerCase()
+const text = message.toLowerCase()
 
-  // SEO TEAM
-  if (text.includes("seo")) {
-    return {
-      reply: "Hello 👋 I'm Arjun, your SEO Manager. I will assemble the SEO team for your project.",
-      agents: [
-        { agent: "Keyword Research Agent" },
-        { agent: "Technical SEO Agent" },
-        { agent: "Content Optimization Agent" }
-      ]
-    }
-  }
+// WEBSITE MANAGER
+if(text.includes("website") || text.includes("build")){
+return {
+manager:"website",
+reply:"Hi, I'm your Website Manager. I can build or copy websites.",
+agents:[
+{agent:"UI Designer"},
+{agent:"Frontend Developer"},
+{agent:"Backend Developer"}
+]
+}
+}
 
-  // WEBSITE TEAM
-  if (text.includes("website")) {
-    return {
-      reply: "Hello 👋 I'm Rohan, your Web Development Manager. I will coordinate the website team.",
-      agents: [
-        { agent: "Website Designer" },
-        { agent: "Frontend Developer" },
-        { agent: "Backend Developer" }
-      ]
-    }
-  }
+// SEO MANAGER
+if(text.includes("seo")){
+return {
+manager:"seo",
+reply:"Hi, I'm your SEO Manager. I help websites rank on Google.",
+agents:[
+{agent:"Keyword Research Agent"},
+{agent:"Technical SEO Agent"},
+{agent:"Content Optimization Agent"}
+]
+}
+}
 
-  // MARKETING TEAM
-  if (text.includes("marketing")) {
-    return {
-      reply: "Hello 👋 I'm Nova, your Marketing Manager. I will assemble the marketing team.",
-      agents: [
-        { agent: "Ads Campaign Agent" },
-        { agent: "Social Media Agent" },
-        { agent: "Email Marketing Agent" }
-      ]
-    }
-  }
+// AUTOMATION MANAGER
+if(text.includes("automation")){
+return {
+manager:"automation",
+reply:"Hi, I'm your Automation Manager.",
+agents:[
+{agent:"Workflow Builder"},
+{agent:"Zapier Integration"},
+{agent:"Data Automation"}
+]
+}
+}
 
-  // DEFAULT INTRO
-  return {
-    reply: "Hello 👋 I'm the AI Operations Manager. Tell me what you want to build and I will assemble the right AI team."
-  }
+// MARKETING MANAGER
+if(text.includes("marketing")){
+return {
+manager:"marketing",
+reply:"Hi, I'm your Marketing Manager.",
+agents:[
+{agent:"Marketing Strategy"},
+{agent:"Campaign Planner"}
+]
+}
+}
+
+// FACEBOOK ADS MANAGER
+if(text.includes("ads") || text.includes("facebook")){
+return {
+manager:"ads",
+reply:"Hi, I'm your Facebook Ads Manager.",
+agents:[
+{agent:"Ad Copywriter"},
+{agent:"Ad Targeting Expert"}
+]
+}
+}
+
+// SOCIAL MEDIA MANAGER
+if(text.includes("instagram") || text.includes("social")){
+return {
+manager:"social",
+reply:"Hi, I'm your Social Media Manager.",
+agents:[
+{agent:"Reels Creator"},
+{agent:"Content Scheduler"}
+]
+}
+}
+
+// DEFAULT INTRO
+return {
+reply:"Hello, I'm the AI Operations Manager. Tell me what you want to build and I will assign the right manager."
+}
+
 }
