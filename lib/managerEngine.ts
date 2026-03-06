@@ -1,85 +1,31 @@
-export async function runManager(message:string){
+export async function runManager(message:string,manager:string){
 
 const text = message.toLowerCase()
 
-// WEBSITE MANAGER
-if(text.includes("website") || text.includes("build")){
-return {
-manager:"website",
-reply:"Hi, I'm your Website Manager. I can build or copy websites.",
-agents:[
-{agent:"UI Designer"},
-{agent:"Frontend Developer"},
-{agent:"Backend Developer"}
-]
-}
+if(manager==="website"){
+return "Our development team will build your website. Do you want Shopify, Next.js, or WordPress?"
 }
 
-// SEO MANAGER
-if(text.includes("seo")){
-return {
-manager:"seo",
-reply:"Hi, I'm your SEO Manager. I help websites rank on Google.",
-agents:[
-{agent:"Keyword Research Agent"},
-{agent:"Technical SEO Agent"},
-{agent:"Content Optimization Agent"}
-]
-}
+if(manager==="seo"){
+return "First we will audit your website and find ranking opportunities."
 }
 
-// AUTOMATION MANAGER
-if(text.includes("automation")){
-return {
-manager:"automation",
-reply:"Hi, I'm your Automation Manager.",
-agents:[
-{agent:"Workflow Builder"},
-{agent:"Zapier Integration"},
-{agent:"Data Automation"}
-]
-}
+if(manager==="automation"){
+return "Tell me which workflow you want to automate."
 }
 
-// MARKETING MANAGER
-if(text.includes("marketing")){
-return {
-manager:"marketing",
-reply:"Hi, I'm your Marketing Manager.",
-agents:[
-{agent:"Marketing Strategy"},
-{agent:"Campaign Planner"}
-]
-}
+if(manager==="marketing"){
+return "What product are we promoting?"
 }
 
-// FACEBOOK ADS MANAGER
-if(text.includes("ads") || text.includes("facebook")){
-return {
-manager:"ads",
-reply:"Hi, I'm your Facebook Ads Manager.",
-agents:[
-{agent:"Ad Copywriter"},
-{agent:"Ad Targeting Expert"}
-]
-}
+if(manager==="ads"){
+return "What is your ad budget and target audience?"
 }
 
-// SOCIAL MEDIA MANAGER
-if(text.includes("instagram") || text.includes("social")){
-return {
-manager:"social",
-reply:"Hi, I'm your Social Media Manager.",
-agents:[
-{agent:"Reels Creator"},
-{agent:"Content Scheduler"}
-]
-}
+if(manager==="social"){
+return "Which platform do you want to grow? Instagram, YouTube or TikTok?"
 }
 
-// DEFAULT INTRO
-return {
-reply:"Hello, I'm the AI Operations Manager. Tell me what you want to build and I will assign the right manager."
-}
+return "Tell me more about your project."
 
 }
