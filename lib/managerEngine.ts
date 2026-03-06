@@ -1,70 +1,25 @@
-import { managers } from "./managersRegistry"
+export async function runManager(message:string){
 
-export async function runManager(prompt:string){
+ const text = message.toLowerCase()
 
-const lower = prompt.toLowerCase()
+ if(text.includes("seo")){
 
-let team:any[] = []
+  return "Hello 👋 I'm Arjun, your SEO Manager. I will assign the SEO team to handle keyword research and optimization."
 
-if(lower.includes("marketing")){
+ }
 
-const m = managers.marketing
+ if(text.includes("website")){
 
-team.push({
-name:m.name,
-role:m.role,
-department:m.department,
-intro:m.intro,
-agents:m.agents
-})
+  return "Hello 👋 I'm Rohan, your Web Development Manager. I will assemble the website design team."
 
-}
+ }
 
-if(lower.includes("seo")){
+ if(text.includes("marketing")){
 
-const m = managers.seo
+  return "Hello 👋 I'm Nova, your Marketing Manager. I will deploy the marketing agents."
 
-team.push({
-name:m.name,
-role:m.role,
-department:m.department,
-intro:m.intro,
-agents:m.agents
-})
+ }
 
-}
-
-if(lower.includes("website")){
-
-const m = managers.web
-
-team.push({
-name:m.name,
-role:m.role,
-department:m.department,
-intro:m.intro,
-agents:m.agents
-})
-
-}
-
-if(lower.includes("automation")){
-
-const m = managers.automation
-
-team.push({
-name:m.name,
-role:m.role,
-department:m.department,
-intro:m.intro,
-agents:m.agents
-})
-
-}
-
-return {
-message:"AI Manager assigned the best department team.",
-team
-}
+ return "Hello 👋 I'm the AI Operations Manager. Tell me what you want to build and I will assemble the right AI team."
 
 }
