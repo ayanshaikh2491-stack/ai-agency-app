@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { runManager } from "@/lib/managerEngine"
 
 export async function POST(req: Request) {
+
   try {
 
     const body = await req.json()
@@ -13,14 +14,15 @@ export async function POST(req: Request) {
 
     return NextResponse.json(result)
 
-  } catch (error: any) {
+  } catch (error:any) {
 
     console.error("API ERROR:", error)
 
     return NextResponse.json({
-      reply: "Server error occurred",
+      reply: "Server error",
       team: []
     })
 
   }
+
 }
