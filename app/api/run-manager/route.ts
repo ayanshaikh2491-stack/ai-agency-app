@@ -5,7 +5,9 @@ const groq = new Groq({
 })
 
 export async function POST(req: Request) {
+
   try {
+
     const { message } = await req.json()
 
     const completion = await groq.chat.completions.create({
@@ -17,11 +19,11 @@ export async function POST(req: Request) {
 You are an AI Agency Manager.
 
 Your job:
-- Talk naturally with clients
+- Talk with clients
 - Understand their business needs
-- Suggest the correct agents (SEO, Website, Automation, Ads, Social)
+- Suggest correct agents (SEO, Website, Automation, Ads, Social)
 
-Always reply professionally and conversationally.
+Always reply naturally like a professional manager.
 `
         },
         {
@@ -34,11 +36,13 @@ Always reply professionally and conversationally.
     return Response.json({
       reply: completion.choices[0].message.content
     })
+
   } catch (error) {
+
     console.error(error)
 
     return Response.json({
-      reply: "Sorry, AI manager is temporarily unavailable."
+      reply: "AI manager failed to respond."
     })
   }
 }
