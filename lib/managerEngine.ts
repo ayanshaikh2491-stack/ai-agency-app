@@ -4,7 +4,7 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 })
 
-export async function runManager(message:string,manager:string){
+export async function runManager(message:string, manager:string){
 
 try{
 
@@ -25,13 +25,15 @@ content:message
 
 })
 
-return {
-reply: completion.choices[0].message.content
+return{
+reply:completion.choices[0].message.content
 }
 
 }catch(e){
 
-return {
+console.log(e)
+
+return{
 reply:"AI service error"
 }
 
