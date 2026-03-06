@@ -5,55 +5,72 @@ export async function runManager(message: string, manager: string) {
   const apiKey = process.env.GROQ_API_KEY
 
   if (!apiKey) {
-    throw new Error("Missing GROQ_API_KEY")
+    return {
+      reply: "API key missing",
+      team: []
+    }
   }
 
-  const groq = new Groq({
-    apiKey
-  })
+  const groq = new Groq({ apiKey })
 
   const teams:any = {
 
     seo:["SEO Specialist","Content Writer","Link Builder"],
 
-    website:["Frontend Dev","Backend Dev","UI Designer"],
+    website:["Frontend Developer","Backend Developer","UI Designer"],
 
-    automation:["Workflow Engineer","Integration Specialist"],
+    marketing:["Ads Manager","SEO Specialist","Content Strategist"],
 
-    marketing:["Ads Manager","SEO Specialist","Content Strategist"]
+    automation:["Workflow Engineer","Integration Specialist","QA Automation"]
 
   }
 
   const team = teams[manager] || ["AI Specialist"]
 
-  const prompt = `
-You are an AI agency manager.
+  try {
 
-User request:
-${message}
+    const completion = await groq.chat.completions.create({
 
-Explain how your team will execute it.
+      model: "llama3-70b-8192",
 
-Team:
+      messages: [
+        {
+          role: "system",
+          content: "You are an AI agency manager helping businesses."
+        },
+        {
+          role: "user",
+          content: `
+User request: ${message}
+
+Explain how your team will execute this task.
+
+Team members:
 ${team.join(", ")}
 `
+        }
+      ]
 
-  const completion = await groq.chat.completions.create({
+    })
 
-    messages:[
-      {role:"system",content:"You are an AI agency manager"},
-      {role:"user",content:prompt}
-    ],
+    const reply =
+      completion?.choices?.[0]?.message?.content ||
+      "Manager could not generate response"
 
-    model:"llama3-70b-8192"
+    return {
+      reply,
+      team
+    }
 
-  })
+  } catch (error:any) {
 
-  const reply = completion.choices?.[0]?.message?.content || "No response"
+    console.error("GROQ ERROR:", error)
 
-  return {
-    reply,
-    team
+    return {
+      reply: "AI service error",
+      team
+    }
+
   }
 
 }
