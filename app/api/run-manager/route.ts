@@ -1,21 +1,23 @@
+import { NextResponse } from "next/server"
 import { runManager } from "@/lib/managerEngine"
 
-export async function POST(req:Request){
+export async function POST(req: Request) {
 
-try{
+  try {
 
-const {message,manager} = await req.json()
+    const { message, manager } = await req.json()
 
-const result = await runManager(message,manager)
+    const result = await runManager(message, manager)
 
-return Response.json({reply:result})
+    return NextResponse.json(result)
 
-}catch(e){
+  } catch (error) {
 
-return Response.json({
-reply:"AI manager failed to respond"
-})
+    return NextResponse.json({
+      reply: "Manager failed to respond",
+      team: []
+    })
 
-}
+  }
 
 }
