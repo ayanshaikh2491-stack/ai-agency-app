@@ -7,16 +7,20 @@ export default function ManagerEngine(){
 const [message,setMessage] = useState("")
 const [chat,setChat] = useState<any[]>([])
 const [team,setTeam] = useState<string[]>([])
+const [manager,setManager] = useState("website")
 
 async function sendMessage(){
 
 const res = await fetch("/api/run-manager",{
+
 method:"POST",
 headers:{ "Content-Type":"application/json" },
+
 body: JSON.stringify({
 message,
-manager:"website"
+manager
 })
+
 })
 
 const data = await res.json()
@@ -32,7 +36,25 @@ return(
 
 <div className="max-w-xl mx-auto">
 
-<h2 className="text-2xl mb-6">Manager Chat</h2>
+<h2 className="text-2xl mb-4">Manager Chat</h2>
+
+{/* MANAGER SELECT */}
+
+<div className="flex gap-2 mb-4 flex-wrap">
+
+{["website","automation","marketing","design","research","operations"].map((m)=>(
+<button
+key={m}
+onClick={()=>setManager(m)}
+className={`px-3 py-1 border ${manager===m?"bg-purple-600":""}`}
+>
+{m}
+</button>
+))}
+
+</div>
+
+{/* CHAT */}
 
 <div className="space-y-2 mb-6">
 
@@ -65,16 +87,16 @@ Send
 
 {/* TEAM */}
 
-<div className="grid grid-cols-3 gap-4 mt-10">
+<div className="grid grid-cols-3 gap-4 mt-8">
 
 {team.map((agent,i)=>(
 
-<div key={i} className="border p-3 rounded-lg text-center">
+<div key={i} className="border p-3 rounded text-center">
 
 <p>{agent}</p>
 
-<p className="text-sm text-gray-400">
-Ready for execution
+<p className="text-xs text-gray-400">
+Ready for work
 </p>
 
 </div>
