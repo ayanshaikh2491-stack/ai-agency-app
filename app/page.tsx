@@ -1,4 +1,3 @@
-import Navbar from "@/components/ui/Navbar"
 import Hero from "@/components/ui/Hero"
 import TrustProof from "@/components/TrustProof"
 import Benefits from "@/components/Benefits"
@@ -14,8 +13,6 @@ export default function Home() {
   return (
 
     <main className="bg-black text-white min-h-screen">
-
-      <Navbar />
 
       <Hero />
 
