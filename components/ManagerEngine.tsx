@@ -1,45 +1,101 @@
-import Groq from "groq-sdk"
+"use client"
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-})
+import { useState } from "react"
 
-export async function runManager(message:string, manager:string){
+export default function ManagerEngine(){
 
-try{
+const [message,setMessage] = useState("")
+const [chat,setChat] = useState<any[]>([])
+const [team,setTeam] = useState<string[]>([])
+const [manager,setManager] = useState("website")
 
-const completion = await groq.chat.completions.create({
+async function sendMessage(){
 
-model:"llama3-70b-8192",
+if(!message) return
 
-messages:[
-{
-role:"system",
-content:"You are an AI agency manager helping businesses."
+const res = await fetch("/api/run-manager",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
 },
-{
-role:"user",
-content:message
-}
-]
-
+body:JSON.stringify({
+message,
+manager
+})
 })
 
-return{
-reply:completion.choices[0].message.content
+const data = await res.json()
+
+setChat(prev=>[
+...prev,
+{user:message},
+{manager:data.reply}
+])
+
+setTeam(data.team || [])
+
+setMessage("")
 }
 
-}catch(e){
+return(
 
-console.log(e)
+<div className="max-w-xl mx-auto">
 
-return{
-reply:"AI service error"
-}
+<h2 className="text-2xl mb-4">Manager Chat</h2>
 
-}
+<div className="flex gap-2 mb-4 flex-wrap">
 
-}</div>
+{["website","automation","marketing","design","research","operations"].map((m)=>(
+<button
+key={m}
+onClick={()=>setManager(m)}
+className={`px-3 py-1 border ${manager===m?"border-purple-600":""}`}
+>
+{m}
+</button>
+))}
+
+</div>
+
+<div className="space-y-2 mb-6">
+
+{chat.map((m,i)=>(
+<div key={i}>
+{m.user && <p><b>User:</b> {m.user}</p>}
+{m.manager && <p><b>Manager:</b> {m.manager}</p>}
+</div>
+))}
+
+</div>
+
+<div className="flex gap-2">
+
+<input
+value={message}
+onChange={(e)=>setMessage(e.target.value)}
+className="flex-1 bg-gray-900 p-2"
+placeholder="Type message"
+/>
+
+<button
+onClick={sendMessage}
+className="bg-purple-600 px-4 py-2"
+>
+Send
+</button>
+
+</div>
+
+<div className="grid grid-cols-3 gap-4 mt-8">
+
+{team.map((agent,i)=>(
+<div key={i} className="border p-3 text-center">
+<p>{agent}</p>
+<p className="text-xs text-gray-400">Ready for work</p>
+</div>
+))}
+
+</div>
 
 </div>
 
