@@ -1,31 +1,57 @@
-export async function runManager(message:string,manager:string){
+import Groq from "groq-sdk"
 
-const text = message.toLowerCase()
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
+})
 
-if(manager==="website"){
-return "Our development team will build your website. Do you want Shopify, Next.js, or WordPress?"
-}
+export async function runManager(message: string, manager: string) {
 
-if(manager==="seo"){
-return "First we will audit your website and find ranking opportunities."
-}
+  const teams:any = {
 
-if(manager==="automation"){
-return "Tell me which workflow you want to automate."
-}
+    website:["Frontend Developer","Backend Developer","UI Designer"],
 
-if(manager==="marketing"){
-return "What product are we promoting?"
-}
+    automation:["Workflow Engineer","Integration Specialist","QA Automation"],
 
-if(manager==="ads"){
-return "What is your ad budget and target audience?"
-}
+    marketing:["SEO Specialist","Ads Manager","Content Strategist"],
 
-if(manager==="social"){
-return "Which platform do you want to grow? Instagram, YouTube or TikTok?"
-}
+    design:["UI Designer","UX Researcher","Brand Designer"],
 
-return "Tell me more about your project."
+    research:["Market Analyst","Data Researcher","Trend Analyst"],
+
+    operations:["Project Manager","Process Engineer","Support Agent"]
+
+  }
+
+  const team = teams[manager] || ["AI Specialist"]
+
+  const prompt = `
+You are the ${manager} manager of an AI agency.
+
+User request:
+${message}
+
+Explain briefly how your team will execute the task.
+
+Team members:
+${team.join(", ")}
+`
+
+  const completion = await groq.chat.completions.create({
+
+    messages: [
+      { role: "system", content: "You are an AI agency manager." },
+      { role: "user", content: prompt }
+    ],
+
+    model: "llama3-70b-8192"
+
+  })
+
+  return {
+
+    reply: completion.choices[0].message.content,
+    team
+
+  }
 
 }
