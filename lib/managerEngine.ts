@@ -1,76 +1,40 @@
 import Groq from "groq-sdk"
 
-export async function runManager(message: string, manager: string) {
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
+})
 
-  const apiKey = process.env.GROQ_API_KEY
+export async function runManager(message:string,manager:string){
 
-  if (!apiKey) {
-    return {
-      reply: "API key missing",
-      team: []
-    }
-  }
+try{
 
-  const groq = new Groq({ apiKey })
+const completion = await groq.chat.completions.create({
 
-  const teams:any = {
+model:"llama3-70b-8192",
 
-    seo:["SEO Specialist","Content Writer","Link Builder"],
+messages:[
+{
+role:"system",
+content:"You are an AI agency manager helping businesses."
+},
+{
+role:"user",
+content:message
+}
+]
 
-    website:["Frontend Developer","Backend Developer","UI Designer"],
+})
 
-    marketing:["Ads Manager","SEO Specialist","Content Strategist"],
+return {
+reply: completion.choices[0].message.content
+}
 
-    automation:["Workflow Engineer","Integration Specialist","QA Automation"]
+}catch(e){
 
-  }
+return {
+reply:"AI service error"
+}
 
-  const team = teams[manager] || ["AI Specialist"]
-
-  try {
-
-    const completion = await groq.chat.completions.create({
-
-      model: "llama3-70b-8192",
-
-      messages: [
-        {
-          role: "system",
-          content: "You are an AI agency manager helping businesses."
-        },
-        {
-          role: "user",
-          content: `
-User request: ${message}
-
-Explain how your team will execute this task.
-
-Team members:
-${team.join(", ")}
-`
-        }
-      ]
-
-    })
-
-    const reply =
-      completion?.choices?.[0]?.message?.content ||
-      "Manager could not generate response"
-
-    return {
-      reply,
-      team
-    }
-
-  } catch (error:any) {
-
-    console.error("GROQ ERROR:", error)
-
-    return {
-      reply: "AI service error",
-      team
-    }
-
-  }
+}
 
 }
