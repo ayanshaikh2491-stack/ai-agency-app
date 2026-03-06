@@ -1,74 +1,90 @@
-import Groq from "groq-sdk"
+"use client"
 
-const groq = new Groq({
- apiKey: process.env.GROQ_API_KEY
+import { useState } from "react"
+
+export default function ManagerEngine(){
+
+const [message,setMessage] = useState("")
+const [chat,setChat] = useState<any[]>([])
+const [team,setTeam] = useState<string[]>([])
+
+async function sendMessage(){
+
+const res = await fetch("/api/run-manager",{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify({
+message,
+manager:"website"
+})
 })
 
-export async function runManager(message: string, manager: string) {
+const data = await res.json()
 
-const managers: any = {
+setChat([...chat,{user:message},{manager:data.reply}])
+setTeam(data.team)
 
-website: {
-name: "Website Manager",
-team: ["Frontend Developer","Backend Developer","UI Designer"]
-},
-
-automation: {
-name: "Automation Manager",
-team: ["Workflow Engineer","Integration Specialist","QA Automation"]
-},
-
-marketing: {
-name: "Marketing Manager",
-team: ["SEO Specialist","Ads Manager","Content Strategist"]
-},
-
-design: {
-name: "Design Manager",
-team: ["UI Designer","UX Researcher","Brand Designer"]
-},
-
-research: {
-name: "Research Manager",
-team: ["Market Analyst","Data Researcher","Trend Analyst"]
-},
-
-operations: {
-name: "Operations Manager",
-team: ["Project Manager","Process Engineer","Support Agent"]
-}
+setMessage("")
 
 }
 
-const managerInfo = managers[manager]
+return(
 
-const prompt = `
-You are the ${managerInfo.name} of an AI agency.
+<div className="max-w-xl mx-auto">
 
-User request:
-${message}
+<h2 className="text-2xl mb-6">Manager Chat</h2>
 
-Your team:
-${managerInfo.team.join(", ")}
+<div className="space-y-2 mb-6">
 
-Reply like a professional manager explaining how your team will execute the task.
-Keep it short and clear.
-`
+{chat.map((m,i)=>(
+<div key={i}>
+{m.user && <p><b>User:</b> {m.user}</p>}
+{m.manager && <p><b>Manager:</b> {m.manager}</p>}
+</div>
+))}
 
-const completion = await groq.chat.completions.create({
+</div>
 
-messages: [
-{ role: "system", content: "You are an AI agency manager." },
-{ role: "user", content: prompt }
-],
+<div className="flex gap-2">
 
-model: "llama3-70b-8192"
+<input
+value={message}
+onChange={(e)=>setMessage(e.target.value)}
+className="flex-1 bg-gray-900 p-2"
+placeholder="Type message"
+/>
 
-})
+<button
+onClick={sendMessage}
+className="bg-purple-600 px-4 py-2"
+>
+Send
+</button>
 
-return {
-reply: completion.choices[0].message.content,
-team: managerInfo.team
-}
+</div>
+
+{/* TEAM */}
+
+<div className="grid grid-cols-3 gap-4 mt-10">
+
+{team.map((agent,i)=>(
+
+<div key={i} className="border p-3 rounded-lg text-center">
+
+<p>{agent}</p>
+
+<p className="text-sm text-gray-400">
+Ready for execution
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</div>
+
+)
 
 }
