@@ -1,13 +1,21 @@
 import { runManager } from "@/lib/managerEngine"
 
-export async function POST(req: Request){
+export async function POST(req:Request){
 
- const { message } = await req.json()
+try{
 
- const reply = await runManager(message)
+const {message,manager} = await req.json()
 
- return Response.json({
-  reply: reply
- })
+const result = await runManager(message,manager)
+
+return Response.json({reply:result})
+
+}catch(e){
+
+return Response.json({
+reply:"AI manager failed to respond"
+})
+
+}
 
 }
