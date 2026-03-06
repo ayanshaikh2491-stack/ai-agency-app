@@ -4,97 +4,106 @@ import { useState } from "react"
 
 export default function ManagerPage({ params }: { params: { id: string } }) {
 
-const [messages,setMessages] = useState<any[]>([])
-const [input,setInput] = useState("")
+  const [messages,setMessages] = useState<any[]>([])
+  const [input,setInput] = useState("")
 
-const intro:any = {
-website:"Hi, I'm your Website Manager. My team is ready. Tell me what we should build.",
-seo:"Hi, I'm your SEO Manager. My SEO team is ready to rank your site.",
-automation:"Hi, I'm your Automation Manager. My workflow team is ready.",
-marketing:"Hi, I'm your Marketing Manager. Campaign team ready.",
-ads:"Hi, I'm your Facebook Ads Manager. Ads team ready.",
-social:"Hi, I'm your Social Media Manager. Content team ready."
-}
+  const intro:Record<string,string> = {
+    website:"Hi, I'm your Website Manager. My team is ready. Tell me what we should build.",
+    seo:"Hi, I'm your SEO Manager. My SEO team is ready to rank your site.",
+    automation:"Hi, I'm your Automation Manager. My workflow team is ready.",
+    marketing:"Hi, I'm your Marketing Manager. Campaign team ready.",
+    ads:"Hi, I'm your Facebook Ads Manager. Ads team ready.",
+    social:"Hi, I'm your Social Media Manager. Content team ready."
+  }
 
-async function send(){
+  async function send(){
 
-if(!input) return
+    if(!input) return
 
-const userMessage = {role:"user",text:input}
+    const userMessage = {role:"user",text:input}
 
-setMessages(prev=>[...prev,userMessage])
+    setMessages(prev=>[...prev,userMessage])
 
-setInput("")
+    const messageText = input
+    setInput("")
 
-try{
+    try{
 
-const res = await fetch("/api/run-manager",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({message:input,manager:params.id})
-})
+      const res = await fetch("/api/run-manager",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          message:messageText,
+          manager:params.id
+        })
+      })
 
-const data = await res.json()
+      const data = await res.json()
 
-setMessages(prev=>[
-...prev,
-{role:"manager",text:data.reply}
-])
+      const reply = data?.reply || "Manager failed to respond"
 
-}catch(e){
+      setMessages(prev=>[
+        ...prev,
+        {role:"manager",text:reply}
+      ])
 
-setMessages(prev=>[
-...prev,
-{role:"manager",text:"Manager failed to respond"}
-])
+    }catch(e){
 
-}
+      setMessages(prev=>[
+        ...prev,
+        {role:"manager",text:"Manager failed to respond"}
+      ])
 
-}
+    }
 
-return(
+  }
 
-<div className="max-w-2xl mx-auto p-6 text-white">
+  return(
 
-<h1 className="text-xl mb-4">Manager Chat</h1>
+    <div className="max-w-2xl mx-auto p-6 text-white">
 
-<div className="mb-6">
+      <h1 className="text-xl mb-4">Manager Chat</h1>
 
-<p className="text-purple-400">
-{intro[params.id]}
-</p>
+      <div className="mb-6">
 
-</div>
+        <p className="text-purple-400">
+          {intro[params.id] || "Hi, I'm your AI Manager. Tell me what you need."}
+        </p>
 
-<div className="space-y-3">
+      </div>
 
-{messages.map((m,i)=>(
-<div key={i}>
-<strong>{m.role}:</strong> {m.text}
-</div>
-))}
+      <div className="space-y-3">
 
-</div>
+        {messages.map((m,i)=>(
+          <div key={i}>
+            <strong>{m.role}:</strong> {m.text}
+          </div>
+        ))}
 
-<div className="flex gap-3 mt-6">
+      </div>
 
-<input
-value={input}
-onChange={(e)=>setInput(e.target.value)}
-className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
-/>
+      <div className="flex gap-3 mt-6">
 
-<button
-onClick={send}
-className="bg-purple-600 px-5 rounded"
->
-Send
-</button>
+        <input
+          value={input}
+          onChange={(e)=>setInput(e.target.value)}
+          className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
+          placeholder="Type your message..."
+        />
 
-</div>
+        <button
+          onClick={send}
+          className="bg-purple-600 px-5 rounded"
+        >
+          Send
+        </button>
 
-</div>
+      </div>
 
-)
+    </div>
+
+  )
 
 }
