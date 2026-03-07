@@ -1,4 +1,4 @@
-hereimport { managerPrompts } from "./managerPrompts"
+import { managerPrompts } from "./managerPrompts"
 
 export async function runManager(message:string,manager:string){
 
