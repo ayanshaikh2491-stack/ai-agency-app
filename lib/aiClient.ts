@@ -1,24 +1,27 @@
 import Groq from "groq-sdk"
 
 const groq = new Groq({
-apiKey: process.env.GROQ_API_KEY
+  apiKey: process.env.GROQ_API_KEY
 })
 
-export async function askAI(message:string){
+export async function callAI(message: string) {
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [
+      {
+        role: "user",
+        content: message
+      }
+    ]
+  })
 
-const completion = await groq.chat.completions.create({
-
-model:"llama-3.3-70b-versatile",
-
-messages:[
-{
-role:"user",
-content:message
+  return completion.choices?.[0]?.message?.content || "No response"
 }
-]
 
-})
+export async function runAI(message: string) {
+  return callAI(message)
+}
 
-return completion.choices?.[0]?.message?.content || "No response"
-
+export async function askAI(message: string) {
+  return callAI(message)
 }
