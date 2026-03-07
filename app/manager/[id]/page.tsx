@@ -2,108 +2,111 @@
 
 import { useState } from "react"
 
-export default function ManagerPage({ params }: { params: { id: string } }) {
+export default function ManagerPage({ params }: { params:{id:string}}){
 
-  const [messages,setMessages] = useState<any[]>([])
-  const [input,setInput] = useState("")
+const [messages,setMessages] = useState<any[]>([])
+const [input,setInput] = useState("")
 
-  const intro:Record<string,string> = {
-    website:"Hi, I'm your Website Manager. My team is ready. Tell me what we should build.",
-    seo:"Hi, I'm your SEO Manager. My SEO team is ready to rank your site.",
-    automation:"Hi, I'm your Automation Manager. My workflow team is ready.",
-    marketing:"Hi, I'm your Marketing Manager. Campaign team ready.",
-    ads:"Hi, I'm your Facebook Ads Manager. Ads team ready.",
-    social:"Hi, I'm your Social Media Manager. Content team ready."
-  }
+const intro:any = {
+seo:"Hi, I'm your SEO Manager. My SEO team is ready to rank your website.",
+website:"Hi, I'm your Website Manager. Our developers are ready to build your site.",
+automation:"Hi, I'm your Automation Manager. Workflow team ready.",
+marketing:"Hi, I'm your Marketing Manager. Campaign team ready.",
+ads:"Hi, I'm your Ads Manager. Paid ads team ready.",
+social:"Hi, I'm your Social Media Manager. Content team ready."
+}
 
-  async function send(){
+async function send(){
 
-    if(!input) return
+if(!input) return
 
-    const userMessage = {role:"user",text:input}
+const userMsg = {role:"user",text:input}
 
-    setMessages(prev=>[...prev,userMessage])
+setMessages(prev=>[...prev,userMsg])
 
-    const messageText = input
-    setInput("")
+setInput("")
 
-    try{
+const res = await fetch("/api/run-manager",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:input,
+manager:params.id
+})
+})
 
-      const res = await fetch("/api/run-manager",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          message:messageText,
-          manager:params.id
-        })
-      })
+const data = await res.json()
 
-      const data = await res.json()
+setMessages(prev=>[
+...prev,
+{role:"manager",text:data.reply}
+])
 
-      const reply = data?.reply || "Manager failed to respond"
+}
 
-      setMessages(prev=>[
-        ...prev,
-        {role:"manager",text:reply}
-      ])
+return(
 
-    }catch(e){
+<div className="max-w-3xl mx-auto p-8 text-white">
 
-      setMessages(prev=>[
-        ...prev,
-        {role:"manager",text:"Manager failed to respond"}
-      ])
+{/* Manager Header */}
 
-    }
+<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-6">
 
-  }
+<h1 className="text-2xl font-bold capitalize mb-2">
+{params.id} Manager
+</h1>
 
-  return(
+<p className="text-purple-400">
+{intro[params.id]}
+</p>
 
-    <div className="max-w-2xl mx-auto p-6 text-white">
+</div>
 
-      <h1 className="text-xl mb-4">Manager Chat</h1>
+{/* Chat Messages */}
 
-      <div className="mb-6">
+<div className="space-y-4 mb-6">
 
-        <p className="text-purple-400">
-          {intro[params.id] || "Hi, I'm your AI Manager. Tell me what you need."}
-        </p>
+{messages.map((m,i)=>(
+<div
+key={i}
+className={`p-3 rounded-lg max-w-xl ${
+m.role==="user"
+?"bg-zinc-800 ml-auto"
+:"bg-purple-900/40"
+}`}
+>
 
-      </div>
+<b>{m.role}:</b> {m.text}
 
-      <div className="space-y-3">
+</div>
+))}
 
-        {messages.map((m,i)=>(
-          <div key={i}>
-            <strong>{m.role}:</strong> {m.text}
-          </div>
-        ))}
+</div>
 
-      </div>
+{/* Chat Input */}
 
-      <div className="flex gap-3 mt-6">
+<div className="flex gap-3">
 
-        <input
-          value={input}
-          onChange={(e)=>setInput(e.target.value)}
-          className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
-          placeholder="Type your message..."
-        />
+<input
+value={input}
+onChange={(e)=>setInput(e.target.value)}
+className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded-lg"
+placeholder="Type your message"
+/>
 
-        <button
-          onClick={send}
-          className="bg-purple-600 px-5 rounded"
-        >
-          Send
-        </button>
+<button
+onClick={send}
+className="bg-purple-600 px-6 rounded-lg"
+>
+Send
+</button>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
-  )
+)
 
 }
