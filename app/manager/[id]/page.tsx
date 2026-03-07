@@ -6,6 +6,7 @@ export default function ManagerPage({params}:{params:{id:string}}){
 
 const [messages,setMessages] = useState<any[]>([])
 const [input,setInput] = useState("")
+const [team,setTeam] = useState<any[]>([])
 
 async function send(){
 
@@ -33,6 +34,10 @@ setMessages(prev=>[
 {role:"manager",text:data.reply}
 ])
 
+if(data.team){
+setTeam(data.team)
+}
+
 }
 
 return(
@@ -46,7 +51,12 @@ return(
 <div className="space-y-3">
 
 {messages.map((m,i)=>(
-<div key={i} className={m.role==="manager"?"bg-purple-900 p-4 rounded":"bg-zinc-800 p-4 rounded"}>
+<div
+key={i}
+className={m.role==="manager"
+?"bg-purple-900 p-4 rounded"
+:"bg-zinc-800 p-4 rounded"}
+>
 <strong>{m.role}:</strong> {m.text}
 </div>
 ))}
@@ -69,6 +79,41 @@ Send
 </button>
 
 </div>
+
+{team.length > 0 && (
+
+<div className="mt-10">
+
+<h2 className="text-xl mb-4">Your AI Team</h2>
+
+<div className="grid grid-cols-2 gap-4">
+
+{team.map((agent,i)=>(
+
+<div
+key={i}
+className="bg-zinc-900 border border-zinc-700 p-4 rounded-lg"
+>
+
+<p className="font-bold">{agent.name}</p>
+
+<p className="text-sm text-gray-400">
+{agent.role}
+</p>
+
+<p className="text-xs text-gray-500 mt-2">
+Hello, I will handle this part of the project.
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</div>
+
+)}
 
 </div>
 
