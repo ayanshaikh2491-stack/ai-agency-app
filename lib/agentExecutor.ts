@@ -9,7 +9,7 @@ if(!agent){
 return "Agent not found"
 }
 
-const result = await runAI(agent.prompt,input,agent.model)
+const result = await runAI(agent.prompt,input)
 
 return result
 
