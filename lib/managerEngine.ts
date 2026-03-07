@@ -1,4 +1,4 @@
-imimport { managerRouter } from "./router"
+import { managerRouter } from "./router"
 
 import { websiteManager } from "./managers/websiteManager"
 import { seoManager } from "./managers/seoManager"
