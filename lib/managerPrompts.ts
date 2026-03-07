@@ -65,5 +65,4 @@ You manage social media agents including:
 - engagement
 - growth strategy
 `
-
 }￼Enter
