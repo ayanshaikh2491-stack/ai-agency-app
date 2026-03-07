@@ -15,7 +15,7 @@ model:"llama3-70b-8192",
 messages:[
 {
 role:"system",
-content:"You are an AI agency manager helping businesses."
+content:`You are the ${manager} manager of an AI agency helping businesses.`
 },
 {
 role:"user",
@@ -25,13 +25,17 @@ content:message
 
 })
 
+const reply =
+completion?.choices?.[0]?.message?.content ||
+"Manager thinking..."
+
 return{
-reply:completion.choices[0].message.content
+reply
 }
 
 }catch(e){
 
-console.log(e)
+console.log("GROQ ERROR:",e)
 
 return{
 reply:"AI service error"
