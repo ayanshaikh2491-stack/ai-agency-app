@@ -2,35 +2,24 @@
 
 import { useState } from "react"
 
-export default function ManagerPage({ params }: { params:{id:string}}){
+export default function ManagerPage({params}:{params:{id:string}}){
 
 const [messages,setMessages] = useState<any[]>([])
 const [input,setInput] = useState("")
-
-const intro:any = {
-seo:"Hi, I'm your SEO Manager. My SEO team is ready to rank your website.",
-website:"Hi, I'm your Website Manager. Our developers are ready to build your site.",
-automation:"Hi, I'm your Automation Manager. Workflow team ready.",
-marketing:"Hi, I'm your Marketing Manager. Campaign team ready.",
-ads:"Hi, I'm your Ads Manager. Paid ads team ready.",
-social:"Hi, I'm your Social Media Manager. Content team ready."
-}
 
 async function send(){
 
 if(!input) return
 
-const userMsg = {role:"user",text:input}
+const userMessage = {role:"user",text:input}
 
-setMessages(prev=>[...prev,userMsg])
+setMessages(prev=>[...prev,userMessage])
 
 setInput("")
 
 const res = await fetch("/api/run-manager",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 message:input,
 manager:params.id
@@ -48,57 +37,33 @@ setMessages(prev=>[
 
 return(
 
-<div className="max-w-3xl mx-auto p-8 text-white">
+<div className="max-w-2xl mx-auto p-6 text-white">
 
-{/* Manager Header */}
-
-<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-6">
-
-<h1 className="text-2xl font-bold capitalize mb-2">
+<h1 className="text-2xl mb-6 capitalize">
 {params.id} Manager
 </h1>
 
-<p className="text-purple-400">
-{intro[params.id]}
-</p>
-
-</div>
-
-{/* Chat Messages */}
-
-<div className="space-y-4 mb-6">
+<div className="space-y-3">
 
 {messages.map((m,i)=>(
-<div
-key={i}
-className={`p-3 rounded-lg max-w-xl ${
-m.role==="user"
-?"bg-zinc-800 ml-auto"
-:"bg-purple-900/40"
-}`}
->
-
-<b>{m.role}:</b> {m.text}
-
+<div key={i} className={m.role==="manager"?"bg-purple-900 p-4 rounded":"bg-zinc-800 p-4 rounded"}>
+<strong>{m.role}:</strong> {m.text}
 </div>
 ))}
 
 </div>
 
-{/* Chat Input */}
-
-<div className="flex gap-3">
+<div className="flex gap-3 mt-6">
 
 <input
 value={input}
 onChange={(e)=>setInput(e.target.value)}
-className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded-lg"
-placeholder="Type your message"
+className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
 />
 
 <button
 onClick={send}
-className="bg-purple-600 px-6 rounded-lg"
+className="bg-purple-600 px-6 rounded"
 >
 Send
 </button>
