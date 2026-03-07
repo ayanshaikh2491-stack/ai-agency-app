@@ -5,10 +5,8 @@ export async function POST(req:Request){
 
 const body = await req.json()
 
-const reply = await runManager(body.message,body.manager)
+const result = await runManager(body.message)
 
-return NextResponse.json({
-reply
-})
+return NextResponse.json({reply:result})
 
 }
