@@ -1,63 +1,94 @@
 "use client"
 
-import { Plus, Zap, Globe, Image, Code, Play, Mic, ArrowUp } from "lucide-react"
+import { useState } from "react"
+import { ArrowUp, Image, Mic } from "lucide-react"
 
 export default function ChatUI() {
 
+  const [message,setMessage] = useState("")
+  const [messages,setMessages] = useState<any[]>([])
+
+  const sendMessage = async () => {
+
+    if(!message) return
+
+    const userMessage = {
+      role:"user",
+      text:message
+    }
+
+    setMessages([...messages,userMessage])
+
+    const res = await fetch("/api/run-manager",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        message:message,
+        manager:"website"
+      })
+    })
+
+    const data = await res.json()
+
+    const aiMessage = {
+      role:"manager",
+      text:data.result || "Manager is thinking..."
+    }
+
+    setMessages(prev => [...prev,aiMessage])
+
+    setMessage("")
+  }
+
+
   return (
+    <div className="w-full max-w-3xl mx-auto bg-zinc-900 border border-zinc-800 rounded-xl p-6">
 
-    <div className="w-full max-w-3xl">
+      <div className="space-y-3 mb-6">
 
-      <div className="bg-gradient-to-b from-[#1e1e1e] to-[#2a2a2a] backdrop-blur-md border border-zinc-700 rounded-[24px] p-6 shadow-xl">
+        {messages.map((m,i)=>(
+          <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
+            <span className="bg-purple-600 px-3 py-2 rounded-lg text-sm inline-block">
+              {m.text}
+            </span>
+          </div>
+        ))}
 
-        {/* Input */}
+      </div>
+
+
+      <div className="flex gap-2">
 
         <input
           type="text"
-          placeholder="Ask anything..."
-          className="w-full bg-transparent text-gray-200 text-lg outline-none placeholder-gray-500"
+          value={message}
+          onChange={(e)=>setMessage(e.target.value)}
+          placeholder="Describe what you want to build..."
+          className="flex-1 bg-zinc-800 p-3 rounded-lg outline-none"
         />
 
-        {/* Toolbar */}
+        <input
+          type="file"
+          className="hidden"
+          id="fileUpload"
+        />
 
-        <div className="flex items-center justify-between mt-6">
+        <label htmlFor="fileUpload" className="bg-zinc-800 p-3 rounded-lg cursor-pointer">
+          <Image size={18}/>
+        </label>
 
-          <div className="flex gap-3">
-
-            <IconBtn><Plus size={18} /></IconBtn>
-            <IconBtn><Zap size={18} /></IconBtn>
-            <IconBtn><Globe size={18} /></IconBtn>
-            <IconBtn><Image size={18} /></IconBtn>
-            <IconBtn><Code size={18} /></IconBtn>
-            <IconBtn><Play size={18} /></IconBtn>
-
-          </div>
-
-          <div className="flex gap-3">
-
-            <IconBtn><Mic size={18} /></IconBtn>
-
-            <button className="bg-purple-600 hover:bg-purple-500 transition rounded-lg p-3">
-              <ArrowUp size={18}/>
-            </button>
-
-          </div>
-
-        </div>
+        <button
+          onClick={sendMessage}
+          className="bg-purple-600 hover:bg-purple-500 p-3 rounded-lg"
+        >
+          <ArrowUp size={18}/>
+        </button>
 
       </div>
 
     </div>
-
-  )
-}
-
-function IconBtn({children}:{children:any}){
-
-  return(
-    <button className="bg-zinc-800 hover:bg-zinc-700 transition rounded-lg p-3">
-      {children}
-    </button>
   )
 
 }
