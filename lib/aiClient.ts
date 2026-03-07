@@ -1,16 +1,22 @@
-import Groq from "groq-sdk"
+export async function runAI(systemPrompt:string,message:string){
 
-const groq = new Groq({
-apiKey: process.env.GROQ_API_KEY
+const response = await fetch("https://api.groq.com/openai/v1/chat/completions",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:`Bearer ${process.env.GROQ_API_KEY}`
+},
+body:JSON.stringify({
+model:"llama-3.3-70b-versatile",
+messages:[
+{role:"system",content:systemPrompt},
+{role:"user",content:message}
+]
+})
 })
 
-export async function runAI(messages:any, model:string){
+const data = await response.json()
 
-const chat = await groq.chat.completions.create({
-messages,
-model
-})
-
-return chat.choices[0].message.content
+return data.choices?.[0]?.message?.content || "No response from AI"
 
 }
