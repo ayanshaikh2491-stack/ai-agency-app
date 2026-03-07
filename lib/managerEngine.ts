@@ -1,35 +1,35 @@
-import { managerPrompts } from "./managerPrompts"
+imimport { managerRouter } from "./router"
 
-export async function runManager(message:string,manager:string){
+import { websiteManager } from "./managers/websiteManager"
+import { seoManager } from "./managers/seoManager"
+import { marketingManager } from "./managers/marketingManager"
+import { socialMediaManager } from "./managers/socialMediaManager"
+import { automationManager } from "./managers/automationManager"
 
-const prompt = managerPrompts[manager] || managerPrompts.website
+export async function runManager(message:string){
 
-const res = await fetch(
-"https://api.groq.com/openai/v1/chat/completions",
-{
-method:"POST",
-headers:{
-"Authorization":`Bearer ${process.env.GROQ_API_KEY}`,
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-model:"llama3-70b-8192",
-messages:[
-{
-role:"system",
-content:prompt
-},
-{
-role:"user",
-content:message
+const manager = await managerRouter(message)
+
+if(manager === "website"){
+return await websiteManager(message)
 }
-]
-})
+
+if(manager === "seo"){
+return await seoManager(message)
 }
-)
 
-const data = await res.json()
-
-return data.choices?.[0]?.message?.content || "Manager thinking..."
-
+if(manager === "marketing"){
+return await marketingManager(message)
 }
+
+if(manager === "social"){
+return await socialMediaManager(message)
+}
+
+if(manager === "automation"){
+return await automationManager(message)
+}
+
+return "Manager not found."
+
+}￼Enter
