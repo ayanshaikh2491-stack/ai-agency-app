@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
 import { runManager } from "@/lib/managerEngine"
 
-export async function POST(req: Request) {
+export async function POST(req: Request){
 
-  const body = await req.json()
+const body = await req.json()
 
-  const reply = await runManager(body.message)
+const result = await runManager(body.message, body.manager)
 
-  return NextResponse.json({ reply })
+return NextResponse.json(result)
 
 }
