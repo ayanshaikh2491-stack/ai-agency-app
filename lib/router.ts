@@ -3,25 +3,35 @@ import { runAI } from "./aiClient"
 export async function managerRouter(message: string) {
 
 const routerPrompt = `
-You are an AI router for an AI agency.
+You are an AI request router for an AI business agency.
 
-Your job is to choose which manager should handle the request.
+Your job is to select the correct manager.
 
-Managers:
+Managers available:
+
+website → building websites, landing pages, SaaS, apps
+seo → ranking websites, keywords, backlinks
+marketing → ads, funnels, lead generation
+social → Instagram, reels, content, growth
+automation → workflow automation, CRM, integrations
+
+Rules:
+
+Return ONLY one word.
+
+Possible answers:
 
 website
 seo
 marketing
 social
 automation
-
-Return ONLY the manager name.
 `
 
 const result = await runAI(
-  routerPrompt,
-  message,
-  "llama-3.3-70b-versatile"
+routerPrompt,
+message,
+"llama-3.3-70b-versatile"
 )
 
 return result.trim().toLowerCase()
