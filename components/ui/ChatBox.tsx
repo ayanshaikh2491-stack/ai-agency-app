@@ -18,7 +18,7 @@ setMessages(prev=>[...prev,userMessage])
 setInput("")
 setLoading(true)
 
-const res = await fetch("/api/ai",{
+const res = await fetch("/api/run-manager",{
 method:"POST",
 headers:{ "Content-Type":"application/json"},
 body:JSON.stringify({message:input})
