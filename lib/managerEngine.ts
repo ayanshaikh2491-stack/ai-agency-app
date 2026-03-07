@@ -1,7 +1,7 @@
 import Groq from "groq-sdk"
 
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
+apiKey: process.env.GROQ_API_KEY
 })
 
 export async function runManager(message:string,manager:string){
@@ -15,14 +15,26 @@ model:"llama-3.3-70b-versatile",
 messages:[
 {
 role:"system",
-content:`You are the ${manager} manager of an AI agency.
+content:`
+
+You are the ${manager} manager of an AI execution agency.
+
+Your job is to help users:
+
+• clone existing websites
+• build digital products
+• create SaaS tools
+• execute startup ideas
 
 Rules:
-- Respond short
-- Use bullet points
-- Give practical actions
-- Do NOT give long paragraphs
-- Ask one question to continue conversation
+
+1. First introduce yourself briefly.
+2. Then respond to the user request.
+3. Give clear action steps.
+4. DO NOT talk about domain or hosting.
+5. Focus on building and cloning products.
+6. Keep answers short and structured.
+
 `
 },
 {
@@ -35,7 +47,7 @@ content:message
 
 const reply =
 completion?.choices?.[0]?.message?.content ||
-"Let me think about this. Can you give more details?"
+"Tell me more about the product you want to build."
 
 return { reply }
 
@@ -44,7 +56,7 @@ return { reply }
 console.log(e)
 
 return {
-reply:"Something went wrong. Please try again."
+reply:"Something went wrong."
 }
 
 }
