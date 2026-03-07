@@ -4,50 +4,75 @@ import { useState } from "react"
 
 export default function ChatUI(){
 
-const [message,setMessage] = useState("")
-const [reply,setReply] = useState("")
+const [messages,setMessages] = useState<any[]>([])
+const [input,setInput] = useState("")
+const [loading,setLoading] = useState(false)
 
 async function send(){
 
-if(!message) return
+if(!input) return
 
-const res = await fetch("/api/run-manager",{
+const userMessage = {role:"user",text:input}
+
+setMessages(prev=>[...prev,userMessage])
+setInput("")
+setLoading(true)
+
+const res = await fetch("/api/ai",{
 method:"POST",
-headers:{ "Content-Type":"application/json" },
-body:JSON.stringify({message,manager:"website"})
+headers:{ "Content-Type":"application/json"},
+body:JSON.stringify({message:input})
 })
 
 const data = await res.json()
 
-setReply(data.reply)
+setMessages(prev=>[
+...prev,
+{role:"assistant",text:data.reply}
+])
 
-setMessage("")
+setLoading(false)
 
 }
 
 return(
 
-<div className="bg-zinc-900 border border-zinc-800 p-6 rounded-xl">
+<div className="max-w-2xl mx-auto">
+
+<div className="space-y-3 mb-6">
+
+{messages.map((m,i)=>(
+<div
+key={i}
+className={
+m.role==="assistant"
+?"bg-purple-900 p-3 rounded"
+:"bg-zinc-800 p-3 rounded text-right"
+}
+>
+{m.text}
+</div>
+))}
+
+</div>
+
+<div className="flex gap-3">
 
 <input
-value={message}
-onChange={(e)=>setMessage(e.target.value)}
-placeholder="Ask anything..."
-className="w-full bg-black border border-zinc-700 p-3 rounded"
+value={input}
+onChange={(e)=>setInput(e.target.value)}
+placeholder="Describe your business problem..."
+className="flex-1 bg-zinc-900 border border-zinc-700 p-3 rounded"
 />
 
 <button
 onClick={send}
-className="bg-purple-600 mt-4 px-6 py-2 rounded"
+className="bg-purple-600 px-6 rounded"
 >
-Send
+{loading?"Thinking":"Send"}
 </button>
 
-{reply && (
-<p className="mt-4 text-gray-300">
-{reply}
-</p>
-)}
+</div>
 
 </div>
 
