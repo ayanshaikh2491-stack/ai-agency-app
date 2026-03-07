@@ -1,4 +1,4 @@
-hereimport { runAI } from "../aiClient";
+import { runAI } from "../aiClient";
 
 export async function socialMediaManager(message:string){
 
