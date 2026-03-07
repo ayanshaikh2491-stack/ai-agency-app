@@ -31,7 +31,6 @@ automation
 const result = await runAI(
 routerPrompt,
 message,
-"llama-3.3-70b-versatile"
 )
 
 return result.trim().toLowerCase()
