@@ -1,4 +1,4 @@
-here"use client"
+here "use client"
 
 import ChatUI from "./ChatBox"
 import { Globe, Search, Settings, Megaphone, Instagram, Layout } from "lucide-react"
