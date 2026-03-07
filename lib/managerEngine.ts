@@ -4,7 +4,7 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 })
 
-export async function runManager(message:string, manager:string){
+export async function runManager(message:string,manager:string){
 
 try{
 
@@ -15,7 +15,15 @@ model:"llama-3.3-70b-versatile",
 messages:[
 {
 role:"system",
-content:`You are the ${manager} manager of an AI agency helping businesses.`
+content:`You are the ${manager} manager of an AI agency.
+
+Rules:
+- Respond short
+- Use bullet points
+- Give practical actions
+- Do NOT give long paragraphs
+- Ask one question to continue conversation
+`
 },
 {
 role:"user",
@@ -27,18 +35,16 @@ content:message
 
 const reply =
 completion?.choices?.[0]?.message?.content ||
-"Manager thinking..."
+"Let me think about this. Can you give more details?"
 
-return{
-reply
-}
+return { reply }
 
 }catch(e){
 
-console.log("GROQ ERROR:",e)
+console.log(e)
 
-return{
-reply:"AI service error"
+return {
+reply:"Something went wrong. Please try again."
 }
 
 }
